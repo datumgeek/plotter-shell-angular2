@@ -2,7 +2,6 @@
   "name": "plotter-shell-angular2",
   "version": "0.2.0",
   "license": "MIT",
-  "angular-cli": {},
   "scripts": {
     "start": "ng serve",
     "lint": "tslint \"src/**/*.ts\"",
@@ -11,7 +10,7 @@
     "e2e": "protractor",
     "build": "./node_modules/.bin/tsc -w"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/common": "2.1.0",
     "@angular/compiler": "2.1.0",
