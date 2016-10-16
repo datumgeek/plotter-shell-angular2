@@ -1,0 +1,15 @@
+<p>
+  shell works!
+</p>
+
+<ul>
+  <li *ngFor="let view of sessionService.session.views">
+    {{ view.model.title }}
+    <app-compose 
+      [modulePath]="view.module" 
+      [className]="view.view" 
+      [dynState]="view.model">
+    </app-compose>
+    <hr />
+  </li>
+</ul>
