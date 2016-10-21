@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ComposeComponent } from './compose.component';
+import { ComposeComponent } from '../compose/compose.component';
 
 @Component({
   selector: 'p-shell',

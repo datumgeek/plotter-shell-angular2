@@ -4,17 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ShellComponent } from './shell.component';
-import { ComposeComponent } from './compose.component';
+import { ShellComponent } from './shell/shell.component';
+import { HostChooserComponent } from './hostChooser/hostChooser.component';
+import { ComposeComponent } from './compose/compose.component';
 
 const routes: Routes = [
-  { path: '', component: ShellComponent}
+  { path: '', component: HostChooserComponent },
+  { path: 'shell', component: ShellComponent}
 ];
 
 @NgModule({
   declarations: [
     ShellComponent,
-    ComposeComponent
+    ComposeComponent,
+    HostChooserComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -25,7 +28,8 @@ const routes: Routes = [
   providers: [],
   exports: [
     ShellComponent,
-    ComposeComponent
+    ComposeComponent,
+    HostChooserComponent
   ]
 })
 export class ShellModule { }
