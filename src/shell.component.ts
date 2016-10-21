@@ -9,7 +9,7 @@ import { ComposeComponent } from './compose.component';
     </p>
 
     <ul>
-      <li *ngFor="let view of sessionService.session.views">
+      <li *ngFor="let view of views">
         {{ view.model.title }}
         <p-shell-compose 
           [modulePath]="view.module" 
@@ -25,6 +25,8 @@ import { ComposeComponent } from './compose.component';
 export class ShellComponent implements OnInit {
 
   constructor() { }
+
+  views: any[] = [];
 
   ngOnInit() {
   }

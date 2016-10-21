@@ -1,18 +1,20 @@
 {
   "compilerOptions": {
-    "declaration": false,
+    "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": [
       "es6",
       "dom"
     ],
-    "module": "amd",
+    "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
     "target": "es5",
     "typeRoots": [
       "./node_modules/@types"
-    ]
+    ],
+    "outDir": "dist",
+    "rootDir": "./src"
   }
 }
