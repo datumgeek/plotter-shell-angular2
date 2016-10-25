@@ -20,7 +20,7 @@ import { ComposeComponent } from '../compose/compose.component';
       </li>
     </ul>
     `,
-  styles: [``]
+  styles: [require('bootstrap/dist/css/bootstrap.css')]
 })
 export class ShellComponent implements OnInit {
 
