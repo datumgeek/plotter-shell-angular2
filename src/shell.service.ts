@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FileManager } from './fileManager/fileManager';
-import { PlotterShellModel } from 'plotter-shell-model/dist/lib/index';
-import { StateDirectory } from 'plotter-shell-model/dist/lib/index';
+import { PlotterShellModel, StateDirectory } from 'plotter-shell-model/dist/lib/index';
 
 @Injectable()
 export class ShellService {
