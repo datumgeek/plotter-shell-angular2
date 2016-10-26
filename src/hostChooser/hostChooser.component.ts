@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ShellService } from '../shell.service';
 
 @Component({
     selector: 'p-host-chooser',
@@ -25,4 +26,6 @@ import { Component } from '@angular/core';
         `
     ]
 })
-export class HostChooserComponent {}
+export class HostChooserComponent {
+    constructor(private shellService: ShellService) {}
+}

@@ -6,7 +6,15 @@ import { PlotterShellModel, StateDirectory } from 'plotter-shell-model/dist/lib/
 export class ShellService {
     public plotterShellModel: PlotterShellModel;
 
-    constructor(public fileManager: FileManager) {}
+    constructor(public fileManager: FileManager) {
+        this.start()
+            .then(stateDirectory => {
+                alert('returned state directory.');
+            })
+            .catch(reason => {
+                alert(`error starting state plotter.\r\n${reason}`);
+            });
+    }
 
     public start() {
         this.plotterShellModel = new PlotterShellModel(this.fileManager);

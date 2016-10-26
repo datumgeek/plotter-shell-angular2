@@ -5,6 +5,8 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ShellService } from './shell.service';
+import { FileManager } from './fileManager/fileManager';
+
 import { ShellComponent } from './shell/shell.component';
 import { HostChooserComponent } from './hostChooser/hostChooser.component';
 import { ComposeComponent } from './compose/compose.component';
@@ -27,7 +29,8 @@ const routes: Routes = [
     HttpModule
   ],
   providers: [
-    ShellService
+    ShellService,
+    FileManager
   ],
   exports: [
     ShellComponent,
