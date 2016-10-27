@@ -5,24 +5,29 @@ import { ShellService } from '../shell.service';
     selector: 'p-host-chooser',
     template: `
         <div class="heading">
-            <div
-                class="input-group input-group-lg"
+
+            <h1 class="h1">Plotter Host</h1>
+            <h3>Choose Plotter Host:</h3>
+
+            <div class="input-group input-group-lg"
                 *ngIf="shellService.plotterShellModel && shellService.plotterShellModel.stateDirectory">
 
-                <h1 class="h1">Plotter Host</h1>
-                <h3>Choose Plotter Host:</h3>
-
-                <select
-                    class="form-control"
+                <select class="form-control"
                     [(ngModel)]="selectedStateRepository">
 
                     <option 
                         *ngFor="let stateRepo of shellService.plotterShellModel.stateDirectory.stateRepositories" 
                         [ngValue]="stateRepo">
-
-                        {{ stateRepo.uniqueId }} ({{ stateRepo.stateRepositoryType }}:{{ stateRepo.path }})
+                        
+                        {{ stateRepo.uniqueId }} ({{ stateRepo.stateRepositoryType.toLowerCase() }}:{{ stateRepo.path }})
                     </option>
+                    
                 </select>
+
+                <span class="input-group-addon" (click)="choose(selectedStateRepository)">
+                    <i class="fa fa-arrow-circle-right fa-lg"></i>
+                </span>
+
             </div>
         </div>
         <div class="body">
@@ -49,6 +54,12 @@ import { ShellService } from '../shell.service';
         `
     ]
 })
+
 export class HostChooserComponent {
+
     constructor(private shellService: ShellService) {}
+
+    choose(stateRepository) {
+        alert(`You chose: ${stateRepository.uniqueId}`);
+    }
 }
