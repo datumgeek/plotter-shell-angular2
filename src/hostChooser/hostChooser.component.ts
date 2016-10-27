@@ -4,10 +4,31 @@ import { ShellService } from '../shell.service';
 @Component({
     selector: 'p-host-chooser',
     template: `
-        <div class="heading"><kbd>heading</kbd></div>
-        <div class="body">body</div>
+        <div class="heading">
+            <div
+                class="input-group input-group-lg"
+                *ngIf="shellService.plotterShellModel && shellService.plotterShellModel.stateDirectory">
+
+                <h1 class="h1">Plotter Host</h1>
+                <h3>Choose Plotter Host:</h3>
+
+                <select
+                    class="form-control"
+                    [(ngModel)]="selectedStateRepository">
+
+                    <option 
+                        *ngFor="let stateRepo of shellService.plotterShellModel.stateDirectory.stateRepositories" 
+                        [ngValue]="stateRepo">
+
+                        {{ stateRepo.uniqueId }} ({{ stateRepo.stateRepositoryType }}:{{ stateRepo.path }})
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="body">
+        </div>
     `,
-    styles: [ require('bootstrap/dist/css/bootstrap.css'),
+    styles: [
         `
         :host {
             display: flex;
@@ -17,11 +38,13 @@ import { ShellService } from '../shell.service';
 
         .heading {
             background-color: mediumaquamarine;
+            padding: 10px;
         }
 
         .body {
-            background-color: lightseagreen;
+            background-color: darkcyan;
             flex: 1 1 auto;
+            padding: 10px;
         }
         `
     ]

@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
+import 'rxjs/Rx';
+
 import { IFileManager } from 'plotter-shell-model/dist/lib/util';
+import { PakDirectory } from 'plotter-shell-model/dist/lib/index';
 
 @Injectable()
 export class FileManager implements IFileManager {
@@ -8,11 +11,19 @@ export class FileManager implements IFileManager {
     constructor(private http: Http) { }
 
     get(segments: string[]): Promise<string> {
+        let that = this;
+
         return new Promise<string>((resolve, reject) => {
-            reject("FileManager 'get' not implemented.");
+            that.http.get(`${segments.join('/')}`)
+                .map((res: Response) => res.json())
+                .subscribe(data => {
+                    resolve(data);
+                }, err => {
+                    reject(new Error(`fetch pak-directory failed: reason: \r\n\r\n${err}`));
+                });
         });
     }
-    
+
     set(segments: string[], content: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             reject("FileManager 'set' not implemented.");

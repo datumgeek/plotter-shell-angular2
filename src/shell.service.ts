@@ -9,7 +9,6 @@ export class ShellService {
     constructor(public fileManager: FileManager) {
         this.start()
             .then(stateDirectory => {
-                alert('returned state directory.');
             })
             .catch(reason => {
                 alert(`error starting state plotter.\r\n${reason}`);
