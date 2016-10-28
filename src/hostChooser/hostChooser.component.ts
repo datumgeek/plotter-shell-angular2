@@ -5,7 +5,7 @@ import { StateRepository } from 'plotter-shell-model/dist/lib';
 
 @Component({
     selector: 'p-host-chooser',
-    host: { '(window:keydown)': 'enterPressed($event)' },
+    host: { '(window:keydown)': 'enterPressed($event)', '(body:DOMNodeInserted)': 'selectInserted($event)' },
     template: `
         <div class="heading">
 
@@ -85,6 +85,12 @@ export class HostChooserComponent {
     enterPressed($event: KeyboardEvent) {
         if ($event.key === 'Enter') {
             this.choose(this.selectedStateRepository);
+        }
+    }
+
+    selectInserted($event) {
+        if ($event.relatedNode.nodeName === 'SELECT') {
+            $event.relatedNode.focus();
         }
     }
 }

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ShellService } from '../shell.service';
 import { StateRepository, StateSession } from 'plotter-shell-model/dist/lib/index';
 
 @Component({
     selector: 'p-session-chooser',
+    host: { '(window:keydown)': 'keydown($event)', '(body:DOMNodeInserted)': 'selectInserted($event)' },
     template: `
         <div class="heading">
 
@@ -72,25 +73,26 @@ export class SessionChooserComponent implements OnInit {
         , private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
-        let that = this;
-
         this.activatedRoute.params.subscribe(params => {
-            that.stateRepositoryId = params['stateRepositoryId'];
+            this.stateRepositoryId = params['stateRepositoryId'];
 
             this.stateRepository = this.shellService.plotterShellModel.stateDirectory.getStateRepository(this.stateRepositoryId);
             if (this.stateRepository) {
                 this.stateRepository.getSessionList()
                     .then(sessionList => {
-                        that.sessionIdList = sessionList;
+                        this.sessionIdList = sessionList;
+                        if (this.sessionIdList.length > 0) {
+                            this.selectedSessionId = this.sessionIdList[0];
+                        }
                     });
             }
 
-            if (!that.stateRepositoryId) {
+            if (!this.stateRepositoryId) {
                 alert(`missing state repository parameter.`);
             }
 
             if (!this.stateRepository) {
-                alert(`no matching state repository for uniqueId: ${that.stateRepositoryId}`);
+                alert(`no matching state repository for uniqueId: ${this.stateRepositoryId}`);
             }
         });
     }
@@ -100,6 +102,18 @@ export class SessionChooserComponent implements OnInit {
             this.router.navigate(['/shell', { stateRepositoryId: this.stateRepositoryId, sessionId: selectedSessionId }]);
         } else {
             this.router.navigate(['/new-session', { stateRepositoryId: this.stateRepositoryId }]);
+        }
+    }
+
+    keydown($event: KeyboardEvent) {
+        if ($event.key === 'Enter') {
+            this.choose(this.selectedSessionId);
+        }
+    }
+
+    selectInserted($event) {
+        if ($event.relatedNode.nodeName === 'SELECT') {
+            $event.relatedNode.focus();
         }
     }
 }
