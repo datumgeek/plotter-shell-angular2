@@ -5,9 +5,11 @@ import { PlotterShellModel, StateDirectory } from 'plotter-shell-model/dist/lib/
 @Injectable()
 export class ShellService {
     public plotterShellModel: PlotterShellModel;
+    public started: Promise<StateDirectory>;
 
     constructor(public fileManager: FileManager) {
-        this.start()
+        this.started = this.start();
+        this.started
             .then(stateDirectory => {
             })
             .catch(reason => {

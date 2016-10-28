@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ShellService } from '../shell.service';
+import { StateRepository } from 'plotter-shell-model/dist/lib';
 
 @Component({
     selector: 'p-host-chooser',
+    host: { '(window:keydown)': 'enterPressed($event)' },
     template: `
         <div class="heading">
 
@@ -58,11 +60,31 @@ import { ShellService } from '../shell.service';
 
 export class HostChooserComponent {
 
+    selectedStateRepository: StateRepository;
+
     constructor(
         private shellService: ShellService,
-        private router: Router) {}
+        private router: Router) {
+
+        shellService.started
+            .then(stateDirectory => {
+                if (
+                    stateDirectory
+                    && stateDirectory.stateRepositories
+                    && stateDirectory.stateRepositories.length > 0
+                ) {
+                    this.selectedStateRepository = stateDirectory.stateRepositories[0];
+                }
+            })
+    }
 
     choose(stateRepository) {
         this.router.navigate(['/sessions', { stateRepositoryId: stateRepository.uniqueId }]);
+    }
+
+    enterPressed($event: KeyboardEvent) {
+        if ($event.key === 'Enter') {
+            this.choose(this.selectedStateRepository);
+        }
     }
 }
