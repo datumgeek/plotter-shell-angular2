@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ShellService } from '../shell.service';
 
 @Component({
@@ -57,9 +58,12 @@ import { ShellService } from '../shell.service';
 
 export class HostChooserComponent {
 
-    constructor(private shellService: ShellService) {}
+    constructor(
+        private shellService: ShellService,
+        private router: Router) {}
 
     choose(stateRepository) {
         alert(`You chose: ${stateRepository.uniqueId}`);
+        this.router.navigate(['/sessions', { stateRepositoryId: stateRepository.uniqueId }]);
     }
 }
