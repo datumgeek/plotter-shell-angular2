@@ -10,11 +10,13 @@ import { FileManager } from './fileManager/fileManager';
 import { ShellComponent } from './shell/shell.component';
 import { HostChooserComponent } from './hostChooser/hostChooser.component';
 import { SessionChooserComponent } from './sessionChooser/sessionChooser.component';
+import { NewSessionComponent } from './newSession/newSession.component';
 import { ComposeComponent } from './compose/compose.component';
 
 const routes: Routes = [
   { path: '', component: HostChooserComponent },
-  { path: 'sessions', component: SessionChooserComponent },  
+  { path: 'sessions', component: SessionChooserComponent },
+  { path: 'new-session', component: NewSessionComponent },
   { path: 'shell', component: ShellComponent}
 ];
 
@@ -23,7 +25,8 @@ const routes: Routes = [
     ShellComponent,
     ComposeComponent,
     HostChooserComponent,
-    SessionChooserComponent
+    SessionChooserComponent,
+    NewSessionComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -39,7 +42,8 @@ const routes: Routes = [
     ShellComponent,
     ComposeComponent,
     HostChooserComponent,
-    SessionChooserComponent
+    SessionChooserComponent,
+    NewSessionComponent
   ]
 })
 export class ShellModule { }

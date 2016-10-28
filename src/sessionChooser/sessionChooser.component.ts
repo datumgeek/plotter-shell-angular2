@@ -96,6 +96,10 @@ export class SessionChooserComponent implements OnInit {
     }
 
     choose(selectedSessionId) {
-        alert(`You chose: ${selectedSessionId}`);
+        if (selectedSessionId) {
+            this.router.navigate(['/shell', { stateRepositoryId: this.stateRepositoryId, sessionId: selectedSessionId }]);
+        } else {
+            this.router.navigate(['/new-session', { stateRepositoryId: this.stateRepositoryId }]);
+        }
     }
 }

@@ -63,7 +63,6 @@ export class HostChooserComponent {
         private router: Router) {}
 
     choose(stateRepository) {
-        alert(`You chose: ${stateRepository.uniqueId}`);
         this.router.navigate(['/sessions', { stateRepositoryId: stateRepository.uniqueId }]);
     }
 }
