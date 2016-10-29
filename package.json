@@ -3,19 +3,13 @@
   "version": "0.2.5",
   "license": "MIT",
   "scripts": {
-    "start": "ng serve",
     "lint": "tslint \"src/**/*.ts\"",
-    "copy": "copyfiles -u 1 ./src/**/*.less ./dist",
+    "copy": "cpx \"src/**/*.{html,png,jpg,less}\" dist --watch --verbose",
     "tsc": "./node_modules/.bin/tsc -w",
     "clean": "./node_modules/.bin/rimraf \"./dist\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
-    "e2e": "protractor",
-    "clean-seed": "rimraf ../plotter-app-seed-angular2/node_modules/plotter-shell-angular2/dist",
-    "deploy-seed": "cpx ./dist/**/* ../plotter-app-seed-angular2/node_modules/plotter-shell-angular2 -w -v",
-    "deploy-seed2": "copyfiles ./dist/**/* ../plotter-app-seed-angular2/node_modules/plotter-shell-angular2",
-    "build": "npm run tsc & npm run deploy-seed &",
-    "build2": "npm run clean && npm run copy && npm run tsc && npm run clean-seed && npm run deploy-seed"
+    "e2e": "protractor"
   },
   "private": false,
   "dependencies": {

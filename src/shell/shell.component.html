@@ -1,15 +1,81 @@
-<p>
-  shell works!
-</p>
+    <div class="header">
+        <h1>Shell ({{stateRepositoryId}} / {{sessionId}}) </h1>
+    </div>
 
-<ul>
-  <li *ngFor="let view of sessionService.session.views">
-    {{ view.model.title }}
-    <app-compose 
-      [modulePath]="view.module" 
-      [className]="view.view" 
-      [dynState]="view.model">
-    </app-compose>
-    <hr />
-  </li>
-</ul>
+    <div class="body">
+        <div class="nav" *ngIf="navViewInstances.length">
+            <div class="nav-body">
+                <div class="nav-host">
+                  <h1>Nav Host</h1>
+                    <!--<compose
+                        repeat.for="vi of navViewInstances"
+                        view.bind="vi.viewTemplate"
+                        view-model.bind="vi.viewModel"
+                        model.bind="vi.viewState"
+                        show.bind="vi === $parent.navActiveViewInstance">
+                    </compose>-->
+                </div>
+            </div>
+            <div class="nav-toolbar" *ngIf="navViewInstances.length > 0">
+              <h1>View Instance Toolbar</h1>
+                <!--<view-instance-toolbar
+                    view-instances.bind="navViewInstances"
+                    active-view-instance.two-way="navActiveViewInstance"
+                    show-title.bind="true"
+                    is-up.bind="false"
+                    move-to-view-instances.bind="altViewInstances">
+                </view-instance-toolbar>-->
+            </div>
+        </div>
+
+        <div class="body2">
+
+          <h1>Body2</h1>
+            <!--<div class="main" show.bind="mainViewInstances.length">
+                <div class="main-toolbar" show.bind="mainViewInstances.length > 0">
+                    <view-instance-toolbar
+                        view-instances.bind="mainViewInstances"
+                        active-view-instance.two-way="mainActiveViewInstance"
+                        show-title.bind="true"
+                        is-up.bind="false"
+                        move-to-view-instances.bind="altViewInstances">
+                    </view-instance-toolbar>
+                </div>
+                <div class="main-body">
+                    <div class="main-host">
+                        <compose
+                            repeat.for="vi of mainViewInstances"
+                            view.bind="vi.viewTemplate"
+                            view-model.bind="vi.viewModel"
+                            model.bind="vi.viewState"
+                            show.bind="vi === $parent.mainActiveViewInstance">
+                        </compose>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alt" show.bind="altViewInstances.length">
+                <div class="alt-toolbar" show.bind="altViewInstances.length > 0">
+                    <view-instance-toolbar
+                        view-instances.bind="altViewInstances"
+                        active-view-instance.two-way="altActiveViewInstance"
+                        show-title.bind="true"
+                        is-up.bind="true"
+                        move-to-view-instances.bind="mainViewInstances">
+                    </view-instance-toolbar>
+                </div>
+                <div class="alt-body">
+                    <div class="alt-host">
+                        <compose
+                            repeat.for="vi of altViewInstances"
+                            view.bind="vi.viewTemplate"
+                            view-model.bind="vi.viewModel"
+                            model.bind="vi.viewState"
+                            show.bind="vi === $parent.altActiveViewInstance">
+                        </compose>
+                    </div>
+                </div>
+            </div>-->
+
+        </div>
+    </div>

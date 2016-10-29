@@ -4,5 +4,9 @@ plotter shell for building angular2 web apps
 ## build instructions
 
 ```bash
-npm run build
+# in one bash shell:
+npm run tsc
+
+# and in another bash shell
+npm run copy
 ```
