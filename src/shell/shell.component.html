@@ -6,7 +6,6 @@
         <div class="nav" *ngIf="shellService.navViewInstances.length">
             <div class="nav-body">
                 <div class="nav-host">
-                    <h1 *ngFor="let vi of shellService.navViewInstances">Nav Host {{ vi.uniqueId }}</h1>
                     <p-compose
                         *ngFor="let vi of shellService.navViewInstances"
                         [cmodule]="vi.cmodule"
@@ -17,7 +16,6 @@
                 </div>
             </div>
             <div class="nav-toolbar" *ngIf="shellService.navViewInstances.length > 0">
-              <h1>View Instance Toolbar</h1>
                 <p-shell-toolbar
                     [viewInstances]="shellService.navViewInstances"
                     [(activeViewInstance)]="shellService.navActiveViewInstance"

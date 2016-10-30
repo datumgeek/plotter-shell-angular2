@@ -3,9 +3,6 @@ import { Component, OnInit, Input, ViewContainerRef, ComponentRef, ViewChild, Mo
 @Component({
   selector: 'p-compose',
   template: `
-    <p>compose works!</p>
-    <p>module: {{ cmodule }}</p>
-    <p>class: {{ component }}</p>
     <div #placeholder></div>
     `,
   styles: [``]
