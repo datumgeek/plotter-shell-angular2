@@ -28,53 +28,53 @@
         </div>
 
         <div class="body2">
-
-          <h1>Body2</h1>
-            <!--<div class="main" show.bind="mainViewInstances.length">
-                <div class="main-toolbar" show.bind="mainViewInstances.length > 0">
-                    <view-instance-toolbar
-                        view-instances.bind="mainViewInstances"
-                        active-view-instance.two-way="mainActiveViewInstance"
-                        show-title.bind="true"
-                        is-up.bind="false"
-                        move-to-view-instances.bind="altViewInstances">
-                    </view-instance-toolbar>
+            <div class="main" show.bind="shellService.mainViewInstances.length">
+                <div class="main-toolbar" show.bind="shellService.mainViewInstances.length > 0">
+                    <p-shell-toolbar
+                        [viewInstances]="shellService.mainViewInstances"
+                        [(activeViewInstance)]="shellService.mainActiveViewInstance"
+                        [showTitle]="true"
+                        [showArrow]="true"
+                        [isUp]="false"
+                        [moveToViewInstances]="shellService.altViewInstances">
+                    </p-shell-toolbar>
                 </div>
                 <div class="main-body">
                     <div class="main-host">
-                        <compose
-                            repeat.for="vi of mainViewInstances"
-                            view.bind="vi.viewTemplate"
-                            view-model.bind="vi.viewModel"
-                            model.bind="vi.viewState"
-                            show.bind="vi === $parent.mainActiveViewInstance">
-                        </compose>
+                        <p-compose
+                            *ngFor="let vi of shellService.mainViewInstances"
+                            [cmodule]="vi.cmodule"
+                            [component]="vi.component"
+                            [state]="vi.state"
+                            [style.visibility]="vi === shellService.mainActiveViewInstance ? 'visible' : 'hidden'">
+                        </p-compose>
                     </div>
                 </div>
             </div>
 
-            <div class="alt" show.bind="altViewInstances.length">
-                <div class="alt-toolbar" show.bind="altViewInstances.length > 0">
-                    <view-instance-toolbar
-                        view-instances.bind="altViewInstances"
-                        active-view-instance.two-way="altActiveViewInstance"
-                        show-title.bind="true"
-                        is-up.bind="true"
-                        move-to-view-instances.bind="mainViewInstances">
-                    </view-instance-toolbar>
+            <div class="alt" show.bind="shellService.altViewInstances.length">
+                <div class="alt-toolbar" show.bind="shellService.altViewInstances.length > 0">
+                    <p-shell-toolbar
+                        [viewInstances]="shellService.altViewInstances"
+                        [(activeViewInstance)]="shellService.altActiveViewInstance"
+                        [showTitle]="true"
+                        [showArrow]="true"
+                        [isUp]="true"
+                        [moveToViewInstances]="shellService.mainViewInstances">
+                    </p-shell-toolbar>
                 </div>
                 <div class="alt-body">
                     <div class="alt-host">
-                        <compose
-                            repeat.for="vi of altViewInstances"
-                            view.bind="vi.viewTemplate"
-                            view-model.bind="vi.viewModel"
-                            model.bind="vi.viewState"
-                            show.bind="vi === $parent.altActiveViewInstance">
-                        </compose>
+                        <p-compose
+                            *ngFor="let vi of shellService.altViewInstances"
+                            [cmodule]="vi.cmodule"
+                            [component]="vi.component"
+                            [state]="vi.state"
+                            [style.visibility]="vi === shellService.altActiveViewInstance ? 'visible' : 'hidden'">
+                        </p-compose>
                     </div>
                 </div>
-            </div>-->
+            </div>
 
         </div>
     </div>
