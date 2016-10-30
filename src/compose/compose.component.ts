@@ -1,20 +1,21 @@
 import { Component, OnInit, Input, ViewContainerRef, ComponentRef, ViewChild, ModuleWithComponentFactories, Compiler, ComponentFactoryResolver } from '@angular/core';
 
 @Component({
-  selector: 'p-shell-compose',
+  selector: 'p-compose',
   template: `
     <p>compose works!</p>
-    <p>module: {{ modulePath }}</p>
-    <p>class: {{ className }}</p>
+    <p>module: {{ cmodule }}</p>
+    <p>class: {{ component }}</p>
     <div #placeholder></div>
     `,
   styles: [``]
 })
 export class ComposeComponent implements OnInit {
 
-  @Input() modulePath: string;
-  @Input() className: string;
-  @Input() dynState: string;
+  @Input() cmodule: string;
+  @Input() component: string;
+  @Input() state: string;
+
   @ViewChild("placeholder", { read: ViewContainerRef }) placeholderRef: ViewContainerRef;
   comp: any;
   private isViewInitialized: boolean = false;
@@ -25,6 +26,8 @@ export class ComposeComponent implements OnInit {
     private componentFactorResolver: ComponentFactoryResolver) { }
 
   loadSubcomponent() {
+    let that = this;
+
     if (!this.isViewInitialized) {
       return;
     }
@@ -32,17 +35,17 @@ export class ComposeComponent implements OnInit {
       this.comp.destroy();
     }
 
-    (<any>window).require([this.modulePath], (module) => {
-      let type = module["default"];
+    (<any>window).require([that.cmodule], (cmodule) => {
+      let type = cmodule["default"];
       this.compiler.compileModuleAndAllComponentsAsync(type)
         .then((moduleWithFactories: ModuleWithComponentFactories<any>) => {
           const factory = moduleWithFactories
             .componentFactories
-            .find(x => x.componentType.name === this.className);
-          this.comp = this.placeholderRef.createComponent(factory, 0);
-          if (this.dynState) {
-            if (typeof this.comp.instance.setDynState == 'function') {
-              this.comp.instance.setDynState(this.dynState);
+            .find(x => x.componentType.name === that.component);
+          that.comp = that.placeholderRef.createComponent(factory, 0);
+          if (that.state) {
+            if (typeof that.comp.instance.setDynState == 'function') {
+              that.comp.instance.setDynState(that.state);
             }
           }
         });

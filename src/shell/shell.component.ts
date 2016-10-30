@@ -17,17 +17,6 @@ export class ShellComponent implements OnInit {
   public sessionId: string;
   public stateSession: StateSession;
 
-  public navViewInstances = new Array<ViewInstance>();
-  public navActiveViewInstance;
-
-  public mainViewInstances = new Array<ViewInstance>();
-  public mainActiveViewInstance;
-  public mainCollapsed = false;
-
-  public altViewInstances = new Array<ViewInstance>();
-  public altActiveViewInstance;
-  public altCollapsed = false;
-
   private viewInstancesLoadedPromise: Promise<boolean>;
   private viewInstancesLoadedResolve: (bool) => void;
   private viewInstancesLoadedReject: (any) => void;
@@ -62,62 +51,12 @@ export class ShellComponent implements OnInit {
   loadViewInstances() {
     this.stateSession.activePaks.forEach(activePak => {
       activePak.viewInstances.forEach(viewInstance => {
-        this.launchViewInstance(viewInstance);
+        this.shellService.launchViewInstance(viewInstance);
       });
     });
 
     this.viewInstancesLoadedResolve(true);
   }
-
-  public focusViewInstance = (viewInstance: ViewInstance) => {
-    switch (viewInstance.paneType) {
-      case 'nav':
-        this.navActiveViewInstance = viewInstance;
-        break;
-
-      case 'main':
-        this.mainActiveViewInstance = viewInstance;
-        break;
-
-      case 'alt':
-        this.altActiveViewInstance = viewInstance;
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  public launchViewInstance = (viewInstance: ViewInstance) => {
-    switch (viewInstance.paneType) {
-      case 'nav':
-        this.navViewInstances.push(viewInstance);
-        if (!this.navActiveViewInstance) {
-          this.navActiveViewInstance = viewInstance;
-        }
-        break;
-
-      case 'main':
-        this.mainViewInstances.push(viewInstance);
-        if (!this.mainActiveViewInstance) {
-          this.mainActiveViewInstance = viewInstance;
-        }
-        break;
-
-      case 'alt':
-        this.altViewInstances.push(viewInstance);
-        if (!this.altActiveViewInstance) {
-          this.altActiveViewInstance = viewInstance;
-        }
-        break;
-
-      default:
-        break;
-    }
-
-    this.focusViewInstance(viewInstance);
-  }
-
 
   startShell(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {

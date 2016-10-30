@@ -3,28 +3,29 @@
     </div>
 
     <div class="body">
-        <div class="nav" *ngIf="navViewInstances.length">
+        <div class="nav" *ngIf="shellService.navViewInstances.length">
             <div class="nav-body">
                 <div class="nav-host">
-                  <h1>Nav Host</h1>
-                    <!--<compose
-                        repeat.for="vi of navViewInstances"
-                        view.bind="vi.viewTemplate"
-                        view-model.bind="vi.viewModel"
-                        model.bind="vi.viewState"
-                        show.bind="vi === $parent.navActiveViewInstance">
-                    </compose>-->
+                    <h1 *ngFor="let vi of shellService.navViewInstances">Nav Host {{ vi.uniqueId }}</h1>
+                    <p-compose
+                        *ngFor="let vi of shellService.navViewInstances"
+                        [cmodule]="vi.cmodule"
+                        [component]="vi.component"
+                        [state]="vi.state"
+                        [style.visibility]="vi === shellService.navActiveViewInstance ? 'visible' : 'hidden'">
+                    </p-compose>
                 </div>
             </div>
-            <div class="nav-toolbar" *ngIf="navViewInstances.length > 0">
+            <div class="nav-toolbar" *ngIf="shellService.navViewInstances.length > 0">
               <h1>View Instance Toolbar</h1>
-                <!--<view-instance-toolbar
-                    view-instances.bind="navViewInstances"
-                    active-view-instance.two-way="navActiveViewInstance"
-                    show-title.bind="true"
-                    is-up.bind="false"
-                    move-to-view-instances.bind="altViewInstances">
-                </view-instance-toolbar>-->
+                <p-shell-toolbar
+                    [viewInstances]="shellService.navViewInstances"
+                    [(activeViewInstance)]="shellService.navActiveViewInstance"
+                    [showTitle]="true"
+                    [showArrow]="false"
+                    [isUp]="false"
+                    [moveToViewInstances]="shellService.altViewInstances">
+                </p-shell-toolbar>
             </div>
         </div>
 

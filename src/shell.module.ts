@@ -12,6 +12,7 @@ import { HostChooserComponent } from './hostChooser/hostChooser.component';
 import { SessionChooserComponent } from './sessionChooser/sessionChooser.component';
 import { NewSessionComponent } from './newSession/newSession.component';
 import { ComposeComponent } from './compose/compose.component';
+import { ShellToolbarComponent } from './shellToolbar/shellToolbar.component';
 
 const routes: Routes = [
   { path: '', component: HostChooserComponent },
@@ -26,7 +27,8 @@ const routes: Routes = [
     ComposeComponent,
     HostChooserComponent,
     SessionChooserComponent,
-    NewSessionComponent
+    NewSessionComponent,
+    ShellToolbarComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -43,7 +45,8 @@ const routes: Routes = [
     ComposeComponent,
     HostChooserComponent,
     SessionChooserComponent,
-    NewSessionComponent
+    NewSessionComponent,
+    ShellToolbarComponent
   ]
 })
 export class ShellModule { }
