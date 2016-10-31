@@ -28,8 +28,8 @@
         </div>
 
         <div class="body2">
-            <div class="main" show.bind="shellService.mainViewInstances.length">
-                <div class="main-toolbar" show.bind="shellService.mainViewInstances.length > 0">
+            <div class="main" *ngIf="shellService.mainViewInstances.length">
+                <div class="main-toolbar" *ngIf="shellService.mainViewInstances.length > 0">
                     <p-shell-toolbar
                         [viewInstances]="shellService.mainViewInstances"
                         [(activeViewInstance)]="shellService.mainActiveViewInstance"
@@ -52,8 +52,8 @@
                 </div>
             </div>
 
-            <div class="alt" show.bind="shellService.altViewInstances.length">
-                <div class="alt-toolbar" show.bind="shellService.altViewInstances.length > 0">
+            <div class="alt" *ngIf="shellService.altViewInstances.length > 0">
+                <div class="alt-toolbar" *ngIf="shellService.altViewInstances.length > 0">
                     <p-shell-toolbar
                         [viewInstances]="shellService.altViewInstances"
                         [(activeViewInstance)]="shellService.altActiveViewInstance"
