@@ -1,6 +1,6 @@
 <div class="btn-group" data-toggle="buttons">
     <label *ngFor="let vi of viewInstances; let ii = index" class="btn btn-primary {{vi === activeViewInstance ? 'active' : ''}}">
-        <input type="radio" name="vi" [ngModel]="vi" [checked]="activeViewInstance === vi">
+        <input type="radio" name="vi" [ngModel]="vi" (click)="setFocus(vi)" [checked]="activeViewInstance === vi">
         <i class="fa fa-plug"></i>
         <span *ngIf="showTitle">{{vi.title}}</span>
         <i *ngIf="isUp && showArrow" class="fa fa-arrow-circle-up" (click)="moveItem(vi, ii, viewInstances)"></i>

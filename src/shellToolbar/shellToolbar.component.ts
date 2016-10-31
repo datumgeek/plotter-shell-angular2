@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ViewInstance } from 'plotter-shell-model/dist/lib';
 import { ShellService } from '../shell.service';
 
@@ -8,7 +8,10 @@ import { ShellService } from '../shell.service';
   styles: [``]
 })
 export class ShellToolbarComponent implements OnInit {
+    // setup two-way binding for activeViewInstance
     @Input() public activeViewInstance: ViewInstance;
+    @Output() public activeViewInstanceChange: EventEmitter<ViewInstance> = new EventEmitter<ViewInstance>();
+
     @Input() public viewInstances: ViewInstance[];
     @Input() public showTitle: boolean;
     @Input() public showArrow: boolean;
@@ -19,6 +22,11 @@ export class ShellToolbarComponent implements OnInit {
 
     ngOnInit() {
         var i = 7;
+    }
+
+    setFocus(vi: ViewInstance) {
+        this.activeViewInstance = vi;
+        this.activeViewInstanceChange.emit(vi);
     }
 
     public moveItem = (vi: ViewInstance, index: number, viArr: ViewInstance[]) => {
