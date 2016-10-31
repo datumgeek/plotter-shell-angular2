@@ -34,7 +34,7 @@ export class ShellToolbarComponent implements OnInit {
         
         viArr.splice(index, 1);
         if (this.activeViewInstance === vi && viArr.length > 0) {
-            this.activeViewInstance = viArr[0];
+            this.setFocus(viArr[0]);
         }
 
         if (vi.paneType === 'alt') {
