@@ -13,12 +13,14 @@ import { SessionChooserComponent } from './sessionChooser/sessionChooser.compone
 import { NewSessionComponent } from './newSession/newSession.component';
 import { ComposeComponent } from './compose/compose.component';
 import { ShellToolbarComponent } from './shellToolbar/shellToolbar.component';
+import { LeftRightSplitterComponent } from './leftRightSplitter/leftRightSplitter.component';
+import { UpDownSplitterComponent } from './upDownSplitter/upDownSplitter.component';
 
 const routes: Routes = [
   { path: '', component: HostChooserComponent },
   { path: 'sessions', component: SessionChooserComponent },
   { path: 'new-session', component: NewSessionComponent },
-  { path: 'shell', component: ShellComponent}
+  { path: 'shell', component: ShellComponent }
 ];
 
 @NgModule({
@@ -28,7 +30,9 @@ const routes: Routes = [
     HostChooserComponent,
     SessionChooserComponent,
     NewSessionComponent,
-    ShellToolbarComponent
+    ShellToolbarComponent,
+    LeftRightSplitterComponent,
+    UpDownSplitterComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -46,7 +50,9 @@ const routes: Routes = [
     HostChooserComponent,
     SessionChooserComponent,
     NewSessionComponent,
-    ShellToolbarComponent
+    ShellToolbarComponent,
+    LeftRightSplitterComponent,
+    UpDownSplitterComponent
   ]
 })
 export class ShellModule { }

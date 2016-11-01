@@ -8,11 +8,11 @@
     overflow: hidden;
 }
 
-.header {
+:host .header {
     background-color: mediumaquamarine;
 }
 
-.body {
+:host .body {
     display: flex;
     flex-direction: row;
     margin: 0;
@@ -22,26 +22,31 @@
     overflow: hidden;
 }
 
-.nav {
+:host .nav {
     display: flex;
     flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
     background-color: lightseagreen;
-    width: 300px;
 }
 
-.nav-body {
-    margin: 0;
+:host .nav-body {
     padding: 0;
-    flex: 1 0;
-    position: relative;
+    margin: 0;
+    flex: 1 0 auto;
     overflow: hidden;
 }
 
-.nav-toolbar {
+:host .nav-toolbar {
     background-color: cadetblue;
 }
 
-.nav-host {
+:host .nav-host {
     position: absolute;
     top: 0;
     left: 0;
@@ -52,38 +57,46 @@
     overflow: auto;
 }
 
-.body2 {
-    display: flex;
-    flex-direction: column;
+:host .body2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     margin: 0;
     padding: 0;
-    border: 0;
-    flex: 1 0;
 }
 
-.main {
-    margin: 0;
-    padding: 0;
-    border: 0;
+:host .main {
     display: flex;
     flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
     background-color: aquamarine;
-    flex: 1 0;
 }
 
-.main-toolbar {
+:host .main-toolbar {
     background-color: cadetblue;
 }
 
-.main-body {
+:host .main-body {
     position: relative;
     overflow: hidden;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     margin: 0;
     padding: 0;
     flex: 1 0;
 }
 
-.main-host {
+:host .main-host {
     position: absolute;
     top: 0;
     left: 0;
@@ -92,29 +105,36 @@
     overflow: auto;
 }
 
-.alt {
-    margin: 0;
-    padding: 0;
-    border: 0;
+:host .alt {
     display: flex;
     flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
     background-color: darkcyan;
-    flex: 1 1 auto;
 }
 
-.alt-toolbar {
+:host .alt-toolbar {
     background-color: cadetblue;
 }
 
-.alt-body {
+:host .alt-body {
     position: relative;
     overflow: hidden;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     margin: 0;
     padding: 0;
     flex: 1 0;
 }
 
-.alt-host {
+:host .alt-host {
     position: absolute;
     top: 0;
     left: 0;

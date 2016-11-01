@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
 
 @Component({
     selector: 'p-left-right-splitter',
@@ -11,7 +11,7 @@ import { Component, ElementRef } from '@angular/core';
         <div left [style.width.px]="leftWidth" droppable="true" (dragover)="onDragOver($event)">
             <ng-content select="[left-pane]"></ng-content>
         </div>
-        <div splitter [style.width.px]="splitterWidth" draggable="true" (dragover)="onDragOver($event)">
+        <div #splitter splitter [style.width.px]="splitterWidth" draggable="true" (dragover)="onDragOver($event)">
             <i 
                 class="button-collapse-left fa fa-arrow-circle-left" 
                 (click)="collapseLeft()"
@@ -92,6 +92,8 @@ import { Component, ElementRef } from '@angular/core';
 })
 export class LeftRightSplitterComponent {
 
+    @ViewChild("splitter", { read: ViewContainerRef }) splitterRef: ViewContainerRef;
+
     leftWidth: number = 300;
     splitterWidth: number = 20;
 
@@ -114,10 +116,12 @@ export class LeftRightSplitterComponent {
     }
 
     onDragStart($event: DragEvent) {
-        this.originalX = $event.x;
-        this.originalY = $event.y;
-        this.originalleftWidth = this.leftWidth;
-        this.inDrag = true;
+        if ($event.srcElement === this.splitterRef.element.nativeElement) {
+            this.originalX = $event.x;
+            this.originalY = $event.y;
+            this.originalleftWidth = this.leftWidth;
+            this.inDrag = true;
+        }
     }
 
     onDragEnd($event: DragEvent) {

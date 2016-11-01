@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, ViewChild, ViewContainerRef } from '@angular/core';
 
 @Component({
     selector: 'p-up-down-splitter',
@@ -11,7 +11,7 @@ import { Component, ElementRef, Input, OnChanges } from '@angular/core';
         <div up [style.height.px]="upHeight" droppable="true" (dragover)="onDragOver($event)">
             <ng-content select="[up-pane]"></ng-content>
         </div>
-        <div splitter [style.height.px]="splitterHeight" draggable="true" (dragover)="onDragOver($event)">
+        <div #splitter splitter [style.height.px]="splitterHeight" draggable="true" (dragover)="onDragOver($event)">
             <i 
                 class="button-collapse-up fa fa-arrow-circle-up" 
                 (click)="collapseUp()"
@@ -45,10 +45,9 @@ import { Component, ElementRef, Input, OnChanges } from '@angular/core';
         }
 
         :host [up] {
+            position: relative;
             background-color: green;
             flex: 0 0 auto;
-            height: 270px;
-            overflow: auto;
         }
 
         :host [splitter] {
@@ -71,9 +70,9 @@ import { Component, ElementRef, Input, OnChanges } from '@angular/core';
         }
 
         :host [down] {
+            position: relative;
             background-color: blue;
             flex: 1 1 auto;
-            overflow:auto;
         }
 
         :host ng-content {
@@ -89,6 +88,8 @@ import { Component, ElementRef, Input, OnChanges } from '@angular/core';
     `]
 })
 export class UpDownSplitterComponent implements OnChanges {
+
+    @ViewChild("splitter", { read: ViewContainerRef }) splitterRef: ViewContainerRef;
 
     @Input() upHeight: number = 300;
     @Input() splitterHeight: number = 20;
@@ -125,10 +126,12 @@ export class UpDownSplitterComponent implements OnChanges {
     }
 
     onDragStart($event: DragEvent) {
-        this.originalX = $event.x;
-        this.originalY = $event.y;
-        this.originalupHeight = this.upHeight;
-        this.inDrag = true;
+        if ($event.srcElement === this.splitterRef.element.nativeElement) {
+            this.originalX = $event.x;
+            this.originalY = $event.y;
+            this.originalupHeight = this.upHeight;
+            this.inDrag = true;
+        }
     }
 
     onDragEnd($event: DragEvent) {

@@ -2,8 +2,8 @@
         <h1>Shell ({{stateRepositoryId}} / {{sessionId}}) </h1>
     </div>
 
-    <div class="body">
-        <div class="nav" *ngIf="shellService.navViewInstances.length">
+    <p-left-right-splitter class="body">
+        <div left-pane class="nav" *ngIf="shellService.navViewInstances.length">
             <div class="nav-body">
                 <div class="nav-host">
                     <p-compose
@@ -27,8 +27,8 @@
             </div>
         </div>
 
-        <div class="body2">
-            <div class="main" *ngIf="shellService.mainViewInstances.length">
+        <p-up-down-splitter right-pane class="body2">
+            <div up-pane class="main" *ngIf="shellService.mainViewInstances.length">
                 <div class="main-toolbar" *ngIf="shellService.mainViewInstances.length > 0">
                     <p-shell-toolbar
                         [viewInstances]="shellService.mainViewInstances"
@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="alt" *ngIf="shellService.altViewInstances.length > 0">
+            <div down-pane class="alt" *ngIf="shellService.altViewInstances.length > 0">
                 <div class="alt-toolbar" *ngIf="shellService.altViewInstances.length > 0">
                     <p-shell-toolbar
                         [viewInstances]="shellService.altViewInstances"
@@ -76,5 +76,5 @@
                 </div>
             </div>
 
-        </div>
-    </div>
+        </p-up-down-splitter>
+    </p-left-right-splitter>
