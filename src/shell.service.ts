@@ -18,9 +18,9 @@ export class ShellService {
             });
     }
 
-    public start() {
+    public start(baseUrl?:string) {
         this.plotterShellModel = new PlotterShellModel(this.fileManager);
-        return this.plotterShellModel.start();
+        return this.plotterShellModel.start(baseUrl);
     }
 
     public navViewInstances = new Array<ViewInstance>();

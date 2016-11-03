@@ -8,13 +8,23 @@ import { PakDirectory } from 'plotter-shell-model/dist/lib/index';
 @Injectable()
 export class FileManager implements IFileManager {
 
-    constructor(private http: Http) { }
+    homePath: string = '';
+
+    constructor(private http: Http) { 
+        let plotterPaths = (<any>window).plotterPaths;
+        if (plotterPaths && plotterPaths.home) {
+            this.homePath = plotterPaths.home;
+            if (!this.homePath.endsWith('/')) {
+                this.homePath =`${this.homePath}/`;
+            }
+        }
+    }
 
     get(segments: string[]): Promise<string> {
         let that = this;
 
         return new Promise<string>((resolve, reject) => {
-            that.http.get(`${segments.join('/')}`)
+            that.http.get(`${this.homePath}${segments.join('/')}`)
                 .map((res: Response) => res.json())
                 .subscribe(data => {
                     resolve(data);
