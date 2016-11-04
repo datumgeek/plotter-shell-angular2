@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewContainerRef, Input } from '@angular/core';
 
 @Component({
     selector: 'p-left-right-splitter',
@@ -20,10 +20,10 @@ import { Component, ElementRef, ViewChild, ViewContainerRef } from '@angular/cor
                 aria-hidden="true">
             </i>
             <i 
-                class="button-collapse-left fa fa-arrows-h"
+                class="button-collapse-left fa fa-minus-circle"
                 *ngIf="leftWidth === 0" 
                 (click)="restore()"
-                [style.font-size.px]="splitterWidth" 
+                [style.font-size.px]="splitterWidth + 1" 
                 aria-hidden="true">
             </i>
             <i 
@@ -34,10 +34,10 @@ import { Component, ElementRef, ViewChild, ViewContainerRef } from '@angular/cor
                 aria-hidden="true">
             </i>
             <i 
-                class="button-collapse-right fa fa-arrows-h"
+                class="button-collapse-right fa fa-minus-circle"
                 *ngIf="isLeftWidthMax"
                 (click)="restore()"
-                [style.font-size.px]="splitterWidth + 2" 
+                [style.font-size.px]="splitterWidth + 1" 
                 aria-hidden="true">
             </i>
         </div>
@@ -110,13 +110,13 @@ export class LeftRightSplitterComponent {
 
     @ViewChild("splitter", { read: ViewContainerRef }) splitterRef: ViewContainerRef;
 
-    leftWidth: number = 300;
-    prevLeftWidth: number = 300;
-    splitterWidth: number = 10;
+    @Input('left-width') leftWidth: number = 300;
+    @Input('splitter-width') splitterWidth: number = 10;
 
     private originalX: number = 0;
     private originalY: number = 0;
-    private originalleftWidth: number = 300;
+    private originalLeftWidth: number = 300;
+    private prevLeftWidth: number = 300;
     private isLeftWidthMax = false;
     private inDrag: boolean = false;
 
@@ -154,7 +154,7 @@ export class LeftRightSplitterComponent {
         if ($event.srcElement === this.splitterRef.element.nativeElement) {
             this.originalX = $event.x;
             this.originalY = $event.y;
-            this.originalleftWidth = this.leftWidth;
+            this.originalLeftWidth = this.leftWidth;
             this.inDrag = true;
         }
     }
@@ -170,7 +170,7 @@ export class LeftRightSplitterComponent {
 
     onDrag($event: DragEvent) {
         if (this.inDrag) {
-            let newPaneWidth = this.originalleftWidth + $event.x - this.originalX;
+            let newPaneWidth = this.originalLeftWidth + $event.x - this.originalX;
             this.isLeftWidthMax = false;
 
             if (newPaneWidth < 0) {

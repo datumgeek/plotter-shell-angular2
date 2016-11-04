@@ -14,14 +14,30 @@ import { Component, ElementRef, Input, OnChanges, ViewChild, ViewContainerRef } 
         <div #splitter splitter [style.height.px]="splitterHeight" draggable="true" (dragover)="onDragOver($event)">
             <i 
                 class="button-collapse-up fa fa-arrow-circle-up" 
+                *ngIf="upHeight > 0" 
                 (click)="collapseUp()"
                 [style.font-size.px]="splitterHeight + 2" 
                 aria-hidden="true">
             </i>
             <i 
+                class="button-collapse-up fa fa-minus-circle"
+                *ngIf="upHeight === 0" 
+                (click)="restore()"
+                [style.font-size.px]="splitterHeight + 2" 
+                aria-hidden="true">
+            </i>
+            <i 
                 class="button-collapse-down fa fa-arrow-circle-down"
+                *ngIf="!isUpHeightMax" 
                 (click)="collapseDown()"
                 [style.font-size.px]="splitterHeight + 2" 
+                aria-hidden="true">
+            </i>
+            <i 
+                class="button-collapse-down fa fa-minus-circle"
+                *ngIf="isUpHeightMax" 
+                (click)="restore()"
+                [style.font-size.px]="splitterHeight + 1" 
                 aria-hidden="true">
             </i>
         </div>
@@ -91,12 +107,14 @@ export class UpDownSplitterComponent implements OnChanges {
 
     @ViewChild("splitter", { read: ViewContainerRef }) splitterRef: ViewContainerRef;
 
-    @Input() upHeight: number = 300;
-    @Input() splitterHeight: number = 10;
+    @Input('up-height') upHeight: number = 300;
+    @Input('splitter-height') splitterHeight: number = 10;
 
     private originalX: number = 0;
     private originalY: number = 0;
-    private originalupHeight: number = 300;
+    private originalUpHeight: number = 300;
+    private prevUpHeight: number = 300;
+    private isUpHeightMax = false;
     private inDrag: boolean = false;
 
     constructor(private el: ElementRef) {}
@@ -117,36 +135,61 @@ export class UpDownSplitterComponent implements OnChanges {
         this.upHeight += 20;
     }
 
+    restore() {
+        let restoreUpHeight = this.prevUpHeight;
+        this.isUpHeightMax = false;
+
+        if (restoreUpHeight < 0) {
+            restoreUpHeight = 0;
+        }
+        if (restoreUpHeight >= (<HTMLElement>(this.el.nativeElement)).clientHeight - this.splitterHeight) {
+            restoreUpHeight = (<HTMLElement>(this.el.nativeElement)).clientHeight - this.splitterHeight;
+            this.isUpHeightMax = true;
+        }
+
+        this.upHeight = restoreUpHeight;
+    }
+
     collapseUp() {
         this.upHeight = 0;
+        this.isUpHeightMax = false;
     }
 
     collapseDown() {
         this.upHeight = (<HTMLElement>(this.el.nativeElement)).clientHeight - this.splitterHeight;
+        this.isUpHeightMax = true;
     }
 
     onDragStart($event: DragEvent) {
         if ($event.srcElement === this.splitterRef.element.nativeElement) {
             this.originalX = $event.x;
             this.originalY = $event.y;
-            this.originalupHeight = this.upHeight;
+            this.originalUpHeight = this.upHeight;
             this.inDrag = true;
         }
     }
 
     onDragEnd($event: DragEvent) {
         this.inDrag = false;
+
+        if (this.upHeight > 0 &&
+            this.upHeight < (<HTMLElement>(this.el.nativeElement)).clientHeight - this.splitterHeight) {
+                this.prevUpHeight = this.upHeight;
+            }
     }
 
     onDrag($event: DragEvent) {
         if (this.inDrag) {
-            let newPaneHeight = this.originalupHeight + $event.y - this.originalY;
+            let newPaneHeight = this.originalUpHeight + $event.y - this.originalY;
+            this.isUpHeightMax = false;
+
             if (newPaneHeight < 0) {
                 newPaneHeight = 0;
             }
 
             if (newPaneHeight > (<HTMLElement>(this.el.nativeElement)).clientHeight - this.splitterHeight) {
                 newPaneHeight = (<HTMLElement>(this.el.nativeElement)).clientHeight - this.splitterHeight;
+                this.isUpHeightMax = true;
             }
             this.upHeight = newPaneHeight;
         }
