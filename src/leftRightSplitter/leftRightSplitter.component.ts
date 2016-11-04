@@ -14,13 +14,29 @@ import { Component, ElementRef, ViewChild, ViewContainerRef } from '@angular/cor
         <div #splitter splitter [style.width.px]="splitterWidth" draggable="true" (dragover)="onDragOver($event)">
             <i 
                 class="button-collapse-left fa fa-arrow-circle-left" 
+                *ngIf="leftWidth > 0" 
                 (click)="collapseLeft()"
                 [style.font-size.px]="splitterWidth + 2" 
                 aria-hidden="true">
             </i>
             <i 
+                class="button-collapse-left fa fa-arrows-h"
+                *ngIf="leftWidth === 0" 
+                (click)="restore()"
+                [style.font-size.px]="splitterWidth" 
+                aria-hidden="true">
+            </i>
+            <i 
                 class="button-collapse-right fa fa-arrow-circle-right"
+                *ngIf="!isLeftWidthMax"
                 (click)="collapseRight()"
+                [style.font-size.px]="splitterWidth + 2" 
+                aria-hidden="true">
+            </i>
+            <i 
+                class="button-collapse-right fa fa-arrows-h"
+                *ngIf="isLeftWidthMax"
+                (click)="restore()"
                 [style.font-size.px]="splitterWidth + 2" 
                 aria-hidden="true">
             </i>
@@ -95,11 +111,13 @@ export class LeftRightSplitterComponent {
     @ViewChild("splitter", { read: ViewContainerRef }) splitterRef: ViewContainerRef;
 
     leftWidth: number = 300;
+    prevLeftWidth: number = 300;
     splitterWidth: number = 10;
 
     private originalX: number = 0;
     private originalY: number = 0;
     private originalleftWidth: number = 300;
+    private isLeftWidthMax = false;
     private inDrag: boolean = false;
 
     constructor(private el: ElementRef) {}
@@ -107,12 +125,29 @@ export class LeftRightSplitterComponent {
         this.leftWidth += 20;
     }
 
+    restore() {
+        let restoreLeftWidth = this.prevLeftWidth;
+        this.isLeftWidthMax = false;
+
+        if (restoreLeftWidth < 0) {
+            restoreLeftWidth = 0;
+        }
+        if (restoreLeftWidth >= (<HTMLElement>(this.el.nativeElement)).clientWidth - this.splitterWidth) {
+            restoreLeftWidth = (<HTMLElement>(this.el.nativeElement)).clientWidth - this.splitterWidth;
+            this.isLeftWidthMax = true;
+        }
+
+        this.leftWidth = restoreLeftWidth;
+    }
+
     collapseLeft() {
         this.leftWidth = 0;
+        this.isLeftWidthMax = false;
     }
 
     collapseRight() {
         this.leftWidth = (<HTMLElement>(this.el.nativeElement)).clientWidth - this.splitterWidth;
+        this.isLeftWidthMax = true;
     }
 
     onDragStart($event: DragEvent) {
@@ -126,19 +161,27 @@ export class LeftRightSplitterComponent {
 
     onDragEnd($event: DragEvent) {
         this.inDrag = false;
+
+        if (this.leftWidth > 0 &&
+            this.leftWidth < (<HTMLElement>(this.el.nativeElement)).clientWidth - this.splitterWidth) {
+                this.prevLeftWidth = this.leftWidth;
+            }
     }
 
     onDrag($event: DragEvent) {
         if (this.inDrag) {
             let newPaneWidth = this.originalleftWidth + $event.x - this.originalX;
+            this.isLeftWidthMax = false;
+
             if (newPaneWidth < 0) {
                 newPaneWidth = 0;
             }
 
-            if (newPaneWidth > (<HTMLElement>(this.el.nativeElement)).clientWidth - this.splitterWidth) {
+            if (newPaneWidth >= (<HTMLElement>(this.el.nativeElement)).clientWidth - this.splitterWidth) {
                 newPaneWidth = (<HTMLElement>(this.el.nativeElement)).clientWidth - this.splitterWidth;
+                this.isLeftWidthMax = true;
             }
-            this.leftWidth = newPaneWidth > 0 ? newPaneWidth : 0;
+            this.leftWidth = newPaneWidth;
         }
     }
 

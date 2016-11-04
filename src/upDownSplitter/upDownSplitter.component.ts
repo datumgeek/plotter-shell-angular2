@@ -45,7 +45,7 @@ import { Component, ElementRef, Input, OnChanges, ViewChild, ViewContainerRef } 
         }
 
         :host [up] {
-            position: relative;
+            position: relative; 
             background-color: green;
             flex: 0 0 auto;
         }
