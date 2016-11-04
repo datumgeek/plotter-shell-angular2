@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, ViewContainerRef, Input } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewContainerRef, Input, OnChanges } from '@angular/core';
 
 @Component({
     selector: 'p-left-right-splitter',
@@ -106,12 +106,15 @@ import { Component, ElementRef, ViewChild, ViewContainerRef, Input } from '@angu
         }
     `]
 })
-export class LeftRightSplitterComponent {
+export class LeftRightSplitterComponent implements OnChanges {
 
     @ViewChild("splitter", { read: ViewContainerRef }) splitterRef: ViewContainerRef;
 
     @Input('left-width') leftWidth: number = 300;
     @Input('splitter-width') splitterWidth: number = 10;
+
+    @Input('hide-left-content') hideLeftContent: boolean = false;
+    @Input('hide-right-content') hideRightContent: boolean = false;
 
     private originalX: number = 0;
     private originalY: number = 0;
@@ -123,6 +126,24 @@ export class LeftRightSplitterComponent {
     constructor(private el: ElementRef) {}
     clickIt() { 
         this.leftWidth += 20;
+    }
+
+    ngOnChanges() {
+        alert(`OnChanges: \r\n\thide-left-content: ${this.hideLeftContent}\r\n\thide-right-content: ${this.hideRightContent}`);
+        if (this.hideLeftContent) {
+            this.prevLeftWidth = this.leftWidth;
+            this.leftWidth = 0;
+            this.splitterWidth = 0;
+        } else {
+            if (this.hideRightContent) {
+                this.prevLeftWidth = this.leftWidth;
+                this.leftWidth = (<HTMLElement>(this.el.nativeElement)).clientWidth;
+                this.splitterWidth = 0;
+            } else {
+                this.leftWidth = this.prevLeftWidth;
+                this.splitterWidth = 10;
+            }
+        }
     }
 
     restore() {

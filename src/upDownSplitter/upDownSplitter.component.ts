@@ -110,6 +110,9 @@ export class UpDownSplitterComponent implements OnChanges {
     @Input('up-height') upHeight: number = 300;
     @Input('splitter-height') splitterHeight: number = 10;
 
+    @Input('hide-up-content') hideUpContent: boolean = false;
+    @Input('hide-down-content') hideDownContent: boolean = false;
+
     private originalX: number = 0;
     private originalY: number = 0;
     private originalUpHeight: number = 300;
@@ -117,21 +120,37 @@ export class UpDownSplitterComponent implements OnChanges {
     private isUpHeightMax = false;
     private inDrag: boolean = false;
 
-    constructor(private el: ElementRef) {}
+    constructor(private el: ElementRef) { }
 
     ngOnChanges() {
-            let newPaneHeight = this.upHeight;
-            if (newPaneHeight < 0) {
-                newPaneHeight = 0;
-            }
+        let newPaneHeight = this.upHeight;
+        if (newPaneHeight < 0) {
+            newPaneHeight = 0;
+        }
 
-            if (newPaneHeight > (<HTMLElement>(this.el.nativeElement)).clientHeight - this.splitterHeight) {
-                newPaneHeight = (<HTMLElement>(this.el.nativeElement)).clientHeight - this.splitterHeight;
+        if (newPaneHeight > (<HTMLElement>(this.el.nativeElement)).clientHeight - this.splitterHeight) {
+            newPaneHeight = (<HTMLElement>(this.el.nativeElement)).clientHeight - this.splitterHeight;
+        }
+        this.upHeight = newPaneHeight;
+
+        alert(`OnChanges: \r\n\thide-up-content: ${this.hideUpContent}\r\n\thide-down-content: ${this.hideDownContent}`);
+        if (this.hideUpContent) {
+            this.prevUpHeight = this.upHeight;
+            this.upHeight = 0;
+            this.splitterHeight = 0;
+        } else {
+            if (this.hideDownContent) {
+                this.prevUpHeight = this.upHeight;
+                this.upHeight = (<HTMLElement>(this.el.nativeElement)).clientHeight;
+                this.splitterHeight = 0;
+            } else {
+                this.upHeight = this.prevUpHeight;
+                this.splitterHeight = 10;
             }
-            this.upHeight = newPaneHeight;
+        }
     }
 
-    clickIt() { 
+    clickIt() {
         this.upHeight += 20;
     }
 
@@ -174,8 +193,8 @@ export class UpDownSplitterComponent implements OnChanges {
 
         if (this.upHeight > 0 &&
             this.upHeight < (<HTMLElement>(this.el.nativeElement)).clientHeight - this.splitterHeight) {
-                this.prevUpHeight = this.upHeight;
-            }
+            this.prevUpHeight = this.upHeight;
+        }
     }
 
     onDrag($event: DragEvent) {
