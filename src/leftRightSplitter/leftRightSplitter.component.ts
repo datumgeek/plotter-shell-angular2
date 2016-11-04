@@ -56,18 +56,18 @@ import { Component, ElementRef, ViewChild, ViewContainerRef } from '@angular/cor
             position: relative;
             background-color: silver;
             flex: 0 0 auto;
-            width: 15px;
+            width: 10px;
         }
 
         :host .button-collapse-right {
             position: absolute;
-            bottom: 0;
+            top: 35px;
             left: 0;
         }
 
         :host .button-collapse-left {
             position: absolute;
-            top: 0;
+            top: 5px;
             left: 0;
         }
 
@@ -95,7 +95,7 @@ export class LeftRightSplitterComponent {
     @ViewChild("splitter", { read: ViewContainerRef }) splitterRef: ViewContainerRef;
 
     leftWidth: number = 300;
-    splitterWidth: number = 20;
+    splitterWidth: number = 10;
 
     private originalX: number = 0;
     private originalY: number = 0;

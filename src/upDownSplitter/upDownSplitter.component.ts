@@ -60,13 +60,13 @@ import { Component, ElementRef, Input, OnChanges, ViewChild, ViewContainerRef } 
         :host .button-collapse-down {
             position: absolute;
             top: 0;
-            right: 0;
+            left: 35px;
         }
 
         :host .button-collapse-up {
             position: absolute;
             top: 0;
-            left: 0;
+            left: 5px;
         }
 
         :host [down] {
@@ -92,7 +92,7 @@ export class UpDownSplitterComponent implements OnChanges {
     @ViewChild("splitter", { read: ViewContainerRef }) splitterRef: ViewContainerRef;
 
     @Input() upHeight: number = 300;
-    @Input() splitterHeight: number = 20;
+    @Input() splitterHeight: number = 10;
 
     private originalX: number = 0;
     private originalY: number = 0;

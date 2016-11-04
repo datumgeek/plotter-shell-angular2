@@ -15,7 +15,7 @@ export class FileManager implements IFileManager {
         if (plotterPaths && plotterPaths.home) {
             this.homePath = plotterPaths.home;
             if (!this.homePath.endsWith('/')) {
-                this.homePath =`${this.homePath}/`;
+                this.homePath = `${this.homePath}/`;
             }
         }
     }
