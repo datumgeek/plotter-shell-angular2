@@ -18,7 +18,7 @@
                     </p-compose>
                 </div>
             </div>
-            <div class="nav-toolbar" *ngIf="shellService.navViewInstances.length > 0">
+            <div class="nav-toolbar" *ngIf="shellService.navViewInstances.length > 1 || (shellService.navViewInstances.length === 1 && !shellService.navViewInstances[0].hideClose)">
                 <p-shell-toolbar
                     [viewInstances]="shellService.navViewInstances"
                     [(activeViewInstance)]="shellService.navActiveViewInstance"
@@ -36,7 +36,7 @@
             right-pane 
             class="body2">
             <div up-pane class="main" *ngIf="shellService.mainViewInstances.length">
-                <div class="main-toolbar" *ngIf="shellService.mainViewInstances.length > 0">
+                <div class="main-toolbar" *ngIf="shellService.mainViewInstances.length + shellService.altViewInstances.length > 1 || (shellService.mainViewInstances.length === 1 && !shellService.mainViewInstances[0].hideClose)">
                     <p-shell-toolbar
                         [viewInstances]="shellService.mainViewInstances"
                         [(activeViewInstance)]="shellService.mainActiveViewInstance"
@@ -60,7 +60,7 @@
             </div>
 
             <div down-pane class="alt" *ngIf="shellService.altViewInstances.length > 0">
-                <div class="alt-toolbar" *ngIf="shellService.altViewInstances.length > 0">
+                <div class="alt-toolbar" *ngIf="shellService.mainViewInstances.length + shellService.altViewInstances.length > 1 || (shellService.altViewInstances.length === 1 && !shellService.altViewInstances[0].hideClose)">
                     <p-shell-toolbar
                         [viewInstances]="shellService.altViewInstances"
                         [(activeViewInstance)]="shellService.altActiveViewInstance"
