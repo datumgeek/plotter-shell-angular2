@@ -5,6 +5,6 @@
         <span *ngIf="showTitle">{{vi.title}}</span>
         <i *ngIf="isUp && showArrow" class="fa fa-arrow-circle-up" (click)="moveItem(vi, ii, viewInstances)"></i>
         <i *ngIf="!isUp && showArrow" class="fa fa-arrow-circle-down" (click)="moveItem(vi, ii, viewInstances)"></i>
-        <i class="fa fa-times" (click)="removeItem(vi, ii, viewInstances)"></i>
+        <i *ngIf="!vi.hideClose" class="fa fa-times" (click)="removeItem(vi, ii, viewInstances)"></i>
     </label>
 </div>
