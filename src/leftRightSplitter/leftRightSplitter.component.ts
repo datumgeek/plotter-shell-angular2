@@ -129,7 +129,6 @@ export class LeftRightSplitterComponent implements OnChanges {
     }
 
     ngOnChanges() {
-        alert(`OnChanges: \r\n\thide-left-content: ${this.hideLeftContent}\r\n\thide-right-content: ${this.hideRightContent}`);
         if (this.hideLeftContent) {
             this.prevLeftWidth = this.leftWidth;
             this.leftWidth = 0;

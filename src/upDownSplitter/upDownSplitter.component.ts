@@ -133,7 +133,6 @@ export class UpDownSplitterComponent implements OnChanges {
         }
         this.upHeight = newPaneHeight;
 
-        alert(`OnChanges: \r\n\thide-up-content: ${this.hideUpContent}\r\n\thide-down-content: ${this.hideDownContent}`);
         if (this.hideUpContent) {
             this.prevUpHeight = this.upHeight;
             this.upHeight = 0;
