@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ViewContainerRef, ComponentRef, ViewChild, ModuleWithComponentFactories, Compiler, ComponentFactoryResolver, ReflectiveInjector, Injector } from '@angular/core';
+import { ModuleService } from '../module.service';
 
 @Component({
   selector: 'p-compose',
@@ -26,6 +27,7 @@ export class ComposeComponent implements OnInit {
   public errorMessage = '';
 
   constructor(
+    private moduleService: ModuleService,
     private injector: Injector,
     private compiler: Compiler,
     private componentFactorResolver: ComponentFactoryResolver) { }
@@ -40,54 +42,40 @@ export class ComposeComponent implements OnInit {
       this.comp.destroy();
     }
 
-    (<any>window).require([that.cmodule], (cmodule) => {
-      let moduleType = cmodule["default"];
-      if (!moduleType) {
-        that.hasError = true;
-        that.errorTitle = `Error in Compose: Failed to get Type for ${that.cmodule}`;
-        that.errorMessage = ``;
+    this.moduleService.getModule(this.cmodule)
+      .then(moduleCatalogItem => {
+        const factory = moduleCatalogItem.componentFactories
+          .find(x => x.componentType.name === that.component);
 
-      } else {
-        that.compiler.compileModuleAndAllComponentsAsync(moduleType)
-          .then((moduleWithFactories: ModuleWithComponentFactories<any>) => {
+        if (!factory) {
+          that.hasError = true;
+          that.errorTitle = `Error in Compose: Failed to find factory for ${that.component}`;
+          that.errorMessage = `within module ${that.cmodule}`;
 
-            const ref = moduleWithFactories.ngModuleFactory.create(this.injector);
+        } else {
+          // const injector = ReflectiveInjector.fromResolvedProviders([], this.injector);
 
-            const factory = moduleWithFactories
-              .componentFactories
-              .find(x => x.componentType.name === that.component);
+          //let refInj = ReflectiveInjector.resolveAndCreate([t])
+          that.comp = that.placeholderRef.createComponent(factory, null, moduleCatalogItem.injector, []);
+          if (!that.comp) {
+            that.hasError = true;
+            that.errorTitle = `Error in Compose: Create Component Failed for ${that.component}`;
+            that.errorMessage = `within module ${that.cmodule}`;
 
-            if (!factory) {
-              that.hasError = true;
-              that.errorTitle = `Error in Compose: Failed to find factory for ${that.component}`;
-              that.errorMessage = `within module ${that.cmodule}`;
+          } else {
 
-            } else {
-              // const injector = ReflectiveInjector.fromResolvedProviders([], this.injector);
-
-              //let refInj = ReflectiveInjector.resolveAndCreate([t])
-              that.comp = that.placeholderRef.createComponent(factory, null, ref.injector, []);
-              if (!that.comp) {
-                that.hasError = true;
-                that.errorTitle = `Error in Compose: Create Component Failed for ${that.component}`;
-                that.errorMessage = `within module ${that.cmodule}`;
-
-              } else {
-
-                if (that.state) {
-                  if (typeof that.comp.instance.setDynState == 'function') {
-                    that.comp.instance.setDynState(that.state);
-                  }
-                }
+            if (that.state) {
+              if (typeof that.comp.instance.setDynState == 'function') {
+                that.comp.instance.setDynState(that.state);
               }
             }
-          }).catch(err => {
-            that.hasError = true;
-            that.errorTitle = `Error in Compose: Failed to compile Type for ${that.cmodule}`;
-            that.errorMessage = `err: ${JSON.stringify(err)}`;
-          });
-      }
-    });
+          }
+        }
+      }).catch(err => {
+        that.hasError = true;
+        that.errorTitle = `Error in Compose: Failed to compile Type for ${that.cmodule}`;
+        that.errorMessage = `err: ${JSON.stringify(err)}`;
+      });
   }
 
   ngOnInit() {

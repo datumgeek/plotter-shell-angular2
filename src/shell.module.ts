@@ -15,6 +15,7 @@ import { ComposeComponent } from './compose/compose.component';
 import { ShellToolbarComponent } from './shellToolbar/shellToolbar.component';
 import { LeftRightSplitterComponent } from './leftRightSplitter/leftRightSplitter.component';
 import { UpDownSplitterComponent } from './upDownSplitter/upDownSplitter.component';
+import { ModuleService } from './module.service';
 
 const routes: Routes = [
   { path: '', component: HostChooserComponent },
@@ -42,7 +43,8 @@ const routes: Routes = [
   ],
   providers: [
     ShellService,
-    FileManager
+    FileManager,
+    ModuleService
   ],
   exports: [
     ShellComponent,
