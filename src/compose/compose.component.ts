@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewContainerRef, ComponentRef, ViewChild, ModuleWithComponentFactories, Compiler, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, Input, ViewContainerRef, ComponentRef, ViewChild, ModuleWithComponentFactories, Compiler, ComponentFactoryResolver, ReflectiveInjector, Injector } from '@angular/core';
 
 @Component({
   selector: 'p-compose',
@@ -26,6 +26,7 @@ export class ComposeComponent implements OnInit {
   public errorMessage = '';
 
   constructor(
+    private injector: Injector,
     private compiler: Compiler,
     private componentFactorResolver: ComponentFactoryResolver) { }
 
@@ -40,15 +41,18 @@ export class ComposeComponent implements OnInit {
     }
 
     (<any>window).require([that.cmodule], (cmodule) => {
-      let type = cmodule["default"];
-      if (!type) {
+      let moduleType = cmodule["default"];
+      if (!moduleType) {
         that.hasError = true;
         that.errorTitle = `Error in Compose: Failed to get Type for ${that.cmodule}`;
         that.errorMessage = ``;
 
       } else {
-        that.compiler.compileModuleAndAllComponentsAsync(type)
+        that.compiler.compileModuleAndAllComponentsAsync(moduleType)
           .then((moduleWithFactories: ModuleWithComponentFactories<any>) => {
+
+            const ref = moduleWithFactories.ngModuleFactory.create(this.injector);
+
             const factory = moduleWithFactories
               .componentFactories
               .find(x => x.componentType.name === that.component);
@@ -59,7 +63,10 @@ export class ComposeComponent implements OnInit {
               that.errorMessage = `within module ${that.cmodule}`;
 
             } else {
-              that.comp = that.placeholderRef.createComponent(factory, 0);
+              // const injector = ReflectiveInjector.fromResolvedProviders([], this.injector);
+
+              //let refInj = ReflectiveInjector.resolveAndCreate([t])
+              that.comp = that.placeholderRef.createComponent(factory, null, ref.injector, []);
               if (!that.comp) {
                 that.hasError = true;
                 that.errorTitle = `Error in Compose: Create Component Failed for ${that.component}`;
