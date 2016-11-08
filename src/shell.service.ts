@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FileManager } from './fileManager/fileManager';
-import { PlotterShellModel, StateDirectory, ViewInstance } from 'plotter-shell-model/dist/lib';
+import { PlotterShellModel, StateDirectory, ViewInstance, ViewInstanceJSON } from 'plotter-shell-model/dist/lib';
 import { Observable } from 'RxJS';
 
 @Injectable()
@@ -53,6 +53,9 @@ export class ShellService {
         }
     }
 
+    public launchViewInstanceJSON = (viewInstanceJSON: ViewInstanceJSON) => {
+        this.launchViewInstance(ViewInstance.fromJSON(viewInstanceJSON));
+    }
     public launchViewInstance = (viewInstance: ViewInstance) => {
         switch (viewInstance.paneType) {
             case 'nav':
