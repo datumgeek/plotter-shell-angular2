@@ -16,6 +16,7 @@ import { ShellToolbarComponent } from './shellToolbar/shellToolbar.component';
 import { LeftRightSplitterComponent } from './leftRightSplitter/leftRightSplitter.component';
 import { UpDownSplitterComponent } from './upDownSplitter/upDownSplitter.component';
 import { ModuleService } from './module.service';
+import { ParameterService } from './parameter.service';
 
 const routes: Routes = [
   { path: '', component: HostChooserComponent },
@@ -44,7 +45,8 @@ const routes: Routes = [
   providers: [
     ShellService,
     FileManager,
-    ModuleService
+    ModuleService,
+    ParameterService
   ],
   exports: [
     ShellComponent,

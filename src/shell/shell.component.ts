@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ComposeComponent } from '../compose/compose.component';
 import { ShellService } from '../shell.service';
+import { ParameterService } from '../parameter.service';
 import { StateRepository, StateSession, ViewInstance } from 'plotter-shell-model/dist/lib';
 
 @Component({
@@ -24,7 +25,8 @@ export class ShellComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private shellService: ShellService
+    private shellService: ShellService,
+    private parameterService: ParameterService
   ) {
     this.viewInstancesLoadedPromise = new Promise<boolean>((resolve, reject) => {
       this.viewInstancesLoadedResolve = resolve;
@@ -41,6 +43,8 @@ export class ShellComponent implements OnInit {
       this.stateRepositoryId = params['stateRepositoryId'];
       this.sessionId = params['sessionId'];
 
+      this.parameterService.load(params);
+
       this.startShell()
         .then(() => {
           this.loadViewInstances();
@@ -51,7 +55,7 @@ export class ShellComponent implements OnInit {
   loadViewInstances() {
     this.stateSession.activePaks.forEach(activePak => {
       activePak.viewInstances.forEach(viewInstance => {
-        this.shellService.launchViewInstance(viewInstance);
+        this.shellService.launchViewInstance(viewInstance, false);
       });
     });
 
