@@ -6,6 +6,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ShellService } from './shell.service';
 import { FileManager } from './fileManager/fileManager';
+import { ModuleService } from './module.service';
+import { ParameterService } from './parameter.service';
+import { ResourceService } from './resource.service';
 
 import { ShellComponent } from './shell/shell.component';
 import { HostChooserComponent } from './hostChooser/hostChooser.component';
@@ -15,8 +18,6 @@ import { ComposeComponent } from './compose/compose.component';
 import { ShellToolbarComponent } from './shellToolbar/shellToolbar.component';
 import { LeftRightSplitterComponent } from './leftRightSplitter/leftRightSplitter.component';
 import { UpDownSplitterComponent } from './upDownSplitter/upDownSplitter.component';
-import { ModuleService } from './module.service';
-import { ParameterService } from './parameter.service';
 
 const routes: Routes = [
   { path: '', component: HostChooserComponent },
@@ -46,7 +47,8 @@ const routes: Routes = [
     ShellService,
     FileManager,
     ModuleService,
-    ParameterService
+    ParameterService,
+    ResourceService
   ],
   exports: [
     ShellComponent,

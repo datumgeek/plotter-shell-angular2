@@ -6,3 +6,4 @@ export {ModuleService} from './module.service';
 export {ParameterService} from './parameter.service';
 export {ShellComponent} from './shell/shell.component';
 export {ComposeComponent} from './compose/compose.component';
+export {ResourceService} from './resource.service';
