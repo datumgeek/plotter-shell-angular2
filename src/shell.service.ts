@@ -18,7 +18,7 @@ export class ShellService {
             });
     }
 
-    public start(baseUrl?:string) {
+    public start(baseUrl?: string) {
         this.plotterShellModel = new PlotterShellModel(this.fileManager);
         return this.plotterShellModel.start(baseUrl);
     }
@@ -53,36 +53,67 @@ export class ShellService {
         }
     }
 
-    public launchViewInstanceJSON = (viewInstanceJSON: ViewInstanceJSON) => {
-        this.launchViewInstance(ViewInstance.fromJSON(viewInstanceJSON));
+    public launchViewInstanceJSON = (viewInstanceJSON: ViewInstanceJSON, reuseTab: boolean) => {
+        this.launchViewInstance(ViewInstance.fromJSON(viewInstanceJSON), reuseTab);
     }
-    public launchViewInstance = (viewInstance: ViewInstance) => {
-        switch (viewInstance.paneType) {
-            case 'nav':
-                this.navViewInstances.push(viewInstance);
-                if (!this.navActiveViewInstance) {
-                    this.navActiveViewInstance = viewInstance;
+    public launchViewInstance = (viewInstance: ViewInstance, reuseTab: boolean) => {
+        if (!reuseTab) {
+            this.launchViewInstanceInNewTab(viewInstance);
+        } else {
+            let foundViewInstance = this.mainViewInstances.find(vi => vi.uniqueId === viewInstance.uniqueId);
+            if (foundViewInstance) { this.replaceViewInstance(foundViewInstance, viewInstance); }
+            else {
+                foundViewInstance = this.altViewInstances.find(vi => vi.uniqueId === viewInstance.uniqueId);
+                if (foundViewInstance) { this.replaceViewInstance(foundViewInstance, viewInstance); }
+                else {
+                    foundViewInstance = this.altViewInstances.find(vi => vi.uniqueId === viewInstance.uniqueId);
+                    if (foundViewInstance) { this.replaceViewInstance(foundViewInstance, viewInstance); }
+                    else { this.launchViewInstanceInNewTab(viewInstance); }
                 }
-                break;
-
-            case 'main':
-                this.mainViewInstances.push(viewInstance);
-                if (!this.mainActiveViewInstance) {
-                    this.mainActiveViewInstance = viewInstance;
-                }
-                break;
-
-            case 'alt':
-                this.altViewInstances.push(viewInstance);
-                if (!this.altActiveViewInstance) {
-                    this.altActiveViewInstance = viewInstance;
-                }
-                break;
-
-            default:
-                break;
+            }
         }
+    }
+    public launchViewInstanceInNewTab = (viewInstance: ViewInstance) => {
+            switch (viewInstance.paneType) {
+                case 'nav':
+                    this.navViewInstances.push(viewInstance);
+                    if (!this.navActiveViewInstance) {
+                        this.navActiveViewInstance = viewInstance;
+                    }
+                    break;
 
-        this.focusViewInstance(viewInstance);
+                case 'main':
+                    this.mainViewInstances.push(viewInstance);
+                    if (!this.mainActiveViewInstance) {
+                        this.mainActiveViewInstance = viewInstance;
+                    }
+                    break;
+
+                case 'alt':
+                    this.altViewInstances.push(viewInstance);
+                    if (!this.altActiveViewInstance) {
+                        this.altActiveViewInstance = viewInstance;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            this.focusViewInstance(viewInstance);
+    }
+    public replaceViewInstance = (oldViewInstance: ViewInstance, newViewInstance: ViewInstance) => {
+        oldViewInstance.activePak = newViewInstance.activePak;
+        oldViewInstance.cmodule = newViewInstance.cmodule;
+        oldViewInstance.component = newViewInstance.component;
+        oldViewInstance.hideClose = newViewInstance.hideClose;
+        newViewInstance.paneType = oldViewInstance.paneType; // leave it where it was found
+        oldViewInstance.state = newViewInstance.state;
+        oldViewInstance.title = newViewInstance.title;
+        oldViewInstance.uniqueId = newViewInstance.uniqueId;
+        oldViewInstance.view = newViewInstance.view;
+        oldViewInstance.viewId = newViewInstance.viewId;
+
+        this.focusViewInstance(oldViewInstance);
     }
 }
