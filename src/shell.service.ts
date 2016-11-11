@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { FileManager } from './fileManager/fileManager';
 import { PlotterShellModel, StateDirectory, ViewInstance, ViewInstanceJSON } from 'plotter-shell-model/dist/lib';
+import { PubSubCustomSubject } from './pubSub/pubSubCustomSubject';
+import { PubSubEventBus } from './pubSub/pubSubEventBus';
 import { Observable } from 'RxJS';
 
 @Injectable()
 export class ShellService {
     public plotterShellModel: PlotterShellModel;
+    public pubSubEventBus = new PubSubEventBus();
     public started: Promise<StateDirectory>;
 
     constructor(public fileManager: FileManager) {
