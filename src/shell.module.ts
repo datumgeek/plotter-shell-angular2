@@ -18,6 +18,8 @@ import { ComposeComponent } from './compose/compose.component';
 import { ShellToolbarComponent } from './shellToolbar/shellToolbar.component';
 import { LeftRightSplitterComponent } from './leftRightSplitter/leftRightSplitter.component';
 import { UpDownSplitterComponent } from './upDownSplitter/upDownSplitter.component';
+import { TabLayoutComponent } from './layouts/tabLayout/tabLayout.component';
+import { PageLayoutComponent } from './layouts/pageLayout/pageLayout.component';
 
 const routes: Routes = [
   { path: '', component: HostChooserComponent },
@@ -35,7 +37,9 @@ const routes: Routes = [
     NewSessionComponent,
     ShellToolbarComponent,
     LeftRightSplitterComponent,
-    UpDownSplitterComponent
+    UpDownSplitterComponent,
+    TabLayoutComponent,
+    PageLayoutComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -58,7 +62,9 @@ const routes: Routes = [
     NewSessionComponent,
     ShellToolbarComponent,
     LeftRightSplitterComponent,
-    UpDownSplitterComponent
+    UpDownSplitterComponent,
+    TabLayoutComponent,
+    PageLayoutComponent
   ]
 })
 export class ShellModule { }

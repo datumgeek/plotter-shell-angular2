@@ -15,7 +15,12 @@ export class PubSubEventBus {
         }
     }
 
-    public subscribe = (subjectName: string, f: (value: any) => void, error?: (error: any) => void, complete?: () => void) : Subscription => {
+    public subscribe = (
+        subjectName: string, 
+        f: (value: any) => void, 
+        error?: (error: any) => void, 
+        complete?: () => void) : Subscription => {
+
         let subject:PubSubCustomSubject<any> = this.subjects[subjectName];
         if (!subject) {
             this.subjects[subjectName] = subject = new PubSubCustomSubject<any>();
