@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChildren, OnChanges, AfterViewInit } from '@angular/core';
 import { ITab } from '../ITab';
 
 @Component({
@@ -17,7 +17,8 @@ import { ITab } from '../ITab';
                     *ngIf="state.layout.header"
                     [cmodule]="state.layout.header.cmodule"
                     [component]="state.layout.header.component"
-                    [state]="state.layout.header.state">
+                    [state]="state.layout.header.state"
+                    [p-parent-visible]="parentVisible">
                 </p-compose>
             </div>
 
@@ -35,7 +36,8 @@ import { ITab } from '../ITab';
                         <p-tab-layout
                             *ngFor="let tab of state.layout.tabs"
                             [state]="{ layout: tab }"
-                            [style.visibility]="tab === state.layout.activeTab ? 'visible' : 'hidden'">
+                            [style.visibility]="tab === state.layout.activeTab && parentVisible ? 'visible' : 'hidden'">
+                            [p-parent-visible]="parentVisible"
                         </p-tab-layout>
                     </div>
                 </div>
@@ -102,4 +104,5 @@ import { ITab } from '../ITab';
 })
 export class TabLayoutComponent {
     @Input() state: any;
+    @Input('p-parent-visible') parentVisible: boolean = true;
 }

@@ -14,7 +14,8 @@
                         [cmodule]="vi.cmodule"
                         [component]="vi.component"
                         [state]="vi.state"
-                        [style.visibility]="vi === shellService.navActiveViewInstance ? 'visible' : 'hidden'">
+                        [style.visibility]="vi === shellService.navActiveViewInstance ? 'visible' : 'hidden'"
+                        [p-parent-visible]="vi === shellService.navActiveViewInstance">
                     </p-compose>
                 </div>
             </div>
@@ -53,7 +54,8 @@
                             [cmodule]="vi.cmodule"
                             [component]="vi.component"
                             [state]="vi.state"
-                            [style.visibility]="vi === shellService.mainActiveViewInstance ? 'visible' : 'hidden'">
+                            [style.visibility]="vi === shellService.mainActiveViewInstance ? 'visible' : 'hidden'"
+                            [p-parent-visible]="vi === shellService.mainActiveViewInstance">
                         </p-compose>
                     </div>
                 </div>
@@ -77,7 +79,8 @@
                             [cmodule]="vi.cmodule"
                             [component]="vi.component"
                             [state]="vi.state"
-                            [style.visibility]="vi === shellService.altActiveViewInstance ? 'visible' : 'hidden'">
+                            [style.visibility]="vi === shellService.altActiveViewInstance ? 'visible' : 'hidden'"
+                            [p-parent-visible]="vi === shellService.altActiveViewInstance">
                         </p-compose>
                     </div>
                 </div>

@@ -1,4 +1,8 @@
-import { Component, OnInit, Input, ViewContainerRef, ComponentRef, ViewChild, ModuleWithComponentFactories, Compiler, ComponentFactoryResolver, ReflectiveInjector, Injector } from '@angular/core';
+import {
+  Component, OnInit, OnChanges, SimpleChanges, Input, ViewContainerRef, ComponentRef, ViewChild,
+  ModuleWithComponentFactories, Compiler, ComponentFactoryResolver,
+  ReflectiveInjector, Injector
+} from '@angular/core';
 import { ModuleService } from '../module.service';
 
 @Component({
@@ -27,14 +31,15 @@ import { ModuleService } from '../module.service';
     }
   `]
 })
-export class ComposeComponent implements OnInit {
+export class ComposeComponent implements OnInit, OnChanges {
 
   @Input() cmodule: string;
   @Input() component: string;
   @Input() state: string;
+  @Input('p-parent-visible') parentVisible: boolean = true;
 
   @ViewChild("placeholder", { read: ViewContainerRef }) placeholderRef: ViewContainerRef;
-  comp: any;
+  comp: ComponentRef<any>;
   private isViewInitialized: boolean = false;
 
   public hasError = false;
@@ -96,8 +101,21 @@ export class ComposeComponent implements OnInit {
   ngOnInit() {
   }
 
-  ngOnChanges() {
-    this.loadSubcomponent();
+  ngOnChanges(changes: SimpleChanges) {
+    let changesProp: any = changes;
+    if (changesProp.cmodule || changesProp.component) {
+      this.loadSubcomponent();
+    } else {
+      if (changesProp.state) {
+        if (typeof this.comp.instance.setDynState == 'function') {
+          this.comp.instance.setDynState(changes['state'].currentValue);
+        }
+      }
+
+      if (changesProp.parentVisible) {
+        this.comp.instance.parentVisible = changes['parentVisible'].currentValue;
+      }
+    }
   }
 
   ngAfterViewInit() {
