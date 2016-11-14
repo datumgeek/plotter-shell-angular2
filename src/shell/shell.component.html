@@ -55,7 +55,7 @@
                             [component]="vi.component"
                             [state]="vi.state"
                             [style.visibility]="vi === shellService.mainActiveViewInstance ? 'visible' : 'hidden'"
-                            >
+                            [p-parent-visible]="vi === shellService.mainActiveViewInstance">
                         </p-compose>
                     </div>
                 </div>
