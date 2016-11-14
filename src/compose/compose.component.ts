@@ -20,7 +20,7 @@ import { ModuleService } from '../module.service';
     }
 
     :host div {
-      position: absolute;
+      position: relative;
       margin: 0;
       padding: 0;
       top: 0;

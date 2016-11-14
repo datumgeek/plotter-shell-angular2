@@ -39,10 +39,10 @@ export class ShellToolbarComponent implements OnInit {
 
         if (vi.paneType === 'alt') {
             vi.paneType = 'main';
-            this.shellService.launchViewInstance(vi);
+            this.shellService.launchViewInstance(vi, false);
         } else {
             vi.paneType = 'alt';
-            this.shellService.launchViewInstance(vi);
+            this.shellService.launchViewInstance(vi, false);
         }
     }
 
