@@ -47,13 +47,7 @@ const routes: Routes = [
     FormsModule,
     HttpModule
   ],
-  providers: [
-    ShellService,
-    FileManager,
-    ModuleService,
-    ParameterService,
-    ResourceService
-  ],
+  providers: [],
   exports: [
     ShellComponent,
     ComposeComponent,
