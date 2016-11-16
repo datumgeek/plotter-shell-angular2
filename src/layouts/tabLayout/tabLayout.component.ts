@@ -1,4 +1,4 @@
-import { Component, Input, ViewChildren, OnChanges, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChildren, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { ITab } from '../ITab';
 
 @Component({
@@ -18,7 +18,7 @@ import { ITab } from '../ITab';
                     [cmodule]="state.layout.header.cmodule"
                     [component]="state.layout.header.component"
                     [state]="state.layout.header.state"
-                    [p-parent-visible]="parentVisible">
+                    [p-parent-visible]="pParentVisible">
                 </p-compose>
             </div>
 
@@ -36,8 +36,8 @@ import { ITab } from '../ITab';
                         <p-tab-layout
                             *ngFor="let tab of state.layout.tabs"
                             [state]="{ layout: tab }"
-                            [style.visibility]="tab === state.layout.activeTab && parentVisible ? 'visible' : 'hidden'">
-                            [p-parent-visible]="parentVisible"
+                            [style.visibility]="tab === state.layout.activeTab && pParentVisible ? 'visible' : 'hidden'">
+                            [p-parent-visible]="pParentVisible"
                         </p-tab-layout>
                     </div>
                 </div>
@@ -51,9 +51,9 @@ import { ITab } from '../ITab';
         :host {
             display: flex;
             flex-direction: column;
-            margin: 0;
+            margin: 5px;
             padding: 0;
-            border: 0;
+            border: 5px solid black;
             flex: 1 0 auto;
             overflow: hidden;
         }
@@ -62,7 +62,7 @@ import { ITab } from '../ITab';
             display: flex;
             flex-direction: column;
             position: absolute;
-            margin: 20px;
+            margin: 0;
             padding: 0;
             border: 0;
             top: 0;
@@ -102,7 +102,33 @@ import { ITab } from '../ITab';
         }
     `]
 })
-export class TabLayoutComponent {
+export class TabLayoutComponent implements OnChanges {
     @Input() state: any;
-    @Input('p-parent-visible') parentVisible: boolean = true;
+    @Input('p-parent-visible') pParentVisible: boolean = true;
+    @ViewChildren(TabLayoutComponent) children: TabLayoutComponent[];
+
+    ngAfterViewInit() {
+        this.children.forEach(child => {
+            child.pParentVisible = this.pParentVisible;
+        });
+
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        let changesProp: any = changes;
+        if (changesProp.pParentVisible) {
+            if (this.children) {
+                this.children.forEach(child => {
+                    child.pParentVisible = changes['pParentVisible'].currentValue;
+                });
+            }
+        }
+    }
+
+    ngOnInit() {
+        if (this.state.layout.tabs && this.state.layout.tabs.length > 0) {
+            this.state.layout.activeTab = this.state.layout.tabs[0];
+        }
+    }
+
 }

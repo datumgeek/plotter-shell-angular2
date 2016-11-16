@@ -36,7 +36,7 @@ export class ComposeComponent implements OnInit, OnChanges {
   @Input() cmodule: string;
   @Input() component: string;
   @Input() state: string;
-  @Input('p-parent-visible') parentVisible: boolean = true;
+  @Input('p-parent-visible') pParentVisible: boolean = true;
 
   @ViewChild("placeholder", { read: ViewContainerRef }) placeholderRef: ViewContainerRef;
   comp: ComponentRef<any>;
@@ -88,6 +88,7 @@ export class ComposeComponent implements OnInit, OnChanges {
               if (typeof that.comp.instance.setDynState == 'function') {
                 that.comp.instance.setDynState(that.state);
               }
+              this.comp.instance.pParentVisible = this.pParentVisible;
             }
           }
         }
@@ -112,8 +113,8 @@ export class ComposeComponent implements OnInit, OnChanges {
         }
       }
 
-      if (changesProp.parentVisible) {
-        this.comp.instance.parentVisible = changes['parentVisible'].currentValue;
+      if (changesProp.pParentVisible) {
+          this.comp.instance.pParentVisible = changes['pParentVisible'].currentValue;
       }
     }
   }
