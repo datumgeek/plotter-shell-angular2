@@ -10,9 +10,6 @@ import { ITab } from '../ITab';
             class="up-down-splitter">
 
             <div up-pane class="up-pane" *ngIf="state.layout.title || state.layout.header">
-
-                <div class="title" *ngIf="state.layout.title">{{ state.layout.title }}</div>
-
                 <p-compose
                     *ngIf="state.layout.header"
                     [cmodule]="state.layout.header.cmodule"
