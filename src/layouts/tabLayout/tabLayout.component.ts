@@ -7,6 +7,7 @@ import { ITab } from '../ITab';
         <p-up-down-splitter 
             [hide-up-content]="!state.layout.title && !state.layout.header" 
             [hide-down-content]="!state.layout.tabs || state.layout.tabs.length <= 0" 
+            [up-height]="state.layout.header?.upHeight"
             class="up-down-splitter">
 
             <div up-pane class="up-pane" *ngIf="state.layout.title || state.layout.header">

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, ViewChild, ViewContainerRef, SimpleChanges } from '@angular/core';
 
 @Component({
     selector: 'p-up-down-splitter',
@@ -64,7 +64,6 @@ import { Component, ElementRef, Input, OnChanges, ViewChild, ViewContainerRef } 
             position: relative;
             overflow: hidden;
             background-color: white;
-            flex: 0 0 auto;
         }
 
         :host [splitter] {
@@ -109,7 +108,7 @@ export class UpDownSplitterComponent implements OnChanges {
     @ViewChild("splitter", { read: ViewContainerRef }) splitterRef: ViewContainerRef;
 
     @Input('up-height') upHeight: number = 300;
-    @Input('splitter-height') splitterHeight: number = 10;
+    @Input('splitter-height') splitterHeight: number = 12;
 
     @Input('hide-up-content') hideUpContent: boolean = false;
     @Input('hide-down-content') hideDownContent: boolean = false;
@@ -123,7 +122,14 @@ export class UpDownSplitterComponent implements OnChanges {
 
     constructor(private el: ElementRef) { }
 
-    ngOnChanges() {
+    ngOnChanges(changes: SimpleChanges) {
+        if ((<any>changes).upHeight) {
+            let newHeight = (<any>changes).upHeight.currentValue;
+            if (newHeight) {
+                this.upHeight = newHeight;
+                this.prevUpHeight = newHeight;
+            }
+        }
         let newPaneHeight = this.upHeight;
         if (newPaneHeight < 0) {
             newPaneHeight = 0;
@@ -145,13 +151,9 @@ export class UpDownSplitterComponent implements OnChanges {
                 this.splitterHeight = 0;
             } else {
                 this.upHeight = this.prevUpHeight;
-                this.splitterHeight = 10;
+                this.splitterHeight = 12;
             }
         }
-    }
-
-    clickIt() {
-        this.upHeight += 20;
     }
 
     restore() {
