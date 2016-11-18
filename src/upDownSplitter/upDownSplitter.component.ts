@@ -63,7 +63,7 @@ import { Component, ElementRef, Input, OnChanges, ViewChild, ViewContainerRef } 
         :host [up] {
             position: relative;
             overflow: hidden;
-            background-color: green;
+            background-color: white;
             flex: 0 0 auto;
         }
 
@@ -71,7 +71,7 @@ import { Component, ElementRef, Input, OnChanges, ViewChild, ViewContainerRef } 
             position: relative;
             background-color: silver;
             flex: 0 0 auto;
-            height: 15px;
+            height: 17px;
         }
 
         :host .button-collapse-down {
@@ -88,7 +88,7 @@ import { Component, ElementRef, Input, OnChanges, ViewChild, ViewContainerRef } 
 
         :host [down] {
             position: relative;
-            background-color: blue;
+            background-color: white;
             flex: 1 1 auto;
         }
 
