@@ -1,0 +1,90 @@
+    <div class="header">
+        <h1>Shell ({{stateRepositoryId}} / {{sessionId}}) </h1>
+    </div>
+
+    <p-left-right-splitter
+        [hide-left-content]="shellService.navViewInstances.length <= 0" 
+        [hide-right-content]="shellService.mainViewInstances.length + shellService.altViewInstances.length <= 0" 
+        class="body">
+        <div left-pane class="nav" *ngIf="shellService.navViewInstances.length">
+            <div class="nav-body">
+                <div class="nav-host">
+                    <p-compose
+                        *ngFor="let vi of shellService.navViewInstances"
+                        [cmodule]="vi.cmodule"
+                        [component]="vi.component"
+                        [state]="vi.state"
+                        [style.visibility]="vi === shellService.navActiveViewInstance ? 'visible' : 'hidden'"
+                        [p-parent-visible]="vi === shellService.navActiveViewInstance">
+                    </p-compose>
+                </div>
+            </div>
+            <div class="nav-toolbar" *ngIf="shellService.navViewInstances.length > 1 || (shellService.navViewInstances.length === 1 && !shellService.navViewInstances[0].hideClose)">
+                <p-shell-toolbar
+                    [viewInstances]="shellService.navViewInstances"
+                    [(activeViewInstance)]="shellService.navActiveViewInstance"
+                    [showTitle]="true"
+                    [showArrow]="false"
+                    [isUp]="false"
+                    [moveToViewInstances]="shellService.altViewInstances">
+                </p-shell-toolbar>
+            </div>
+        </div>
+
+        <p-up-down-splitter 
+            [hide-up-content]="shellService.mainViewInstances.length <= 0" 
+            [hide-down-content]="shellService.altViewInstances.length <= 0" 
+            right-pane 
+            class="body2">
+            <div up-pane class="main" *ngIf="shellService.mainViewInstances.length">
+                <div class="main-toolbar" *ngIf="shellService.mainViewInstances.length + shellService.altViewInstances.length > 1 || (shellService.mainViewInstances.length === 1 && !shellService.mainViewInstances[0].hideClose)">
+                    <p-shell-toolbar
+                        [viewInstances]="shellService.mainViewInstances"
+                        [(activeViewInstance)]="shellService.mainActiveViewInstance"
+                        [showTitle]="true"
+                        [showArrow]="true"
+                        [isUp]="false"
+                        [moveToViewInstances]="shellService.altViewInstances">
+                    </p-shell-toolbar>
+                </div>
+                <div class="main-body">
+                    <div class="main-host">
+                        <p-compose
+                            *ngFor="let vi of shellService.mainViewInstances"
+                            [cmodule]="vi.cmodule"
+                            [component]="vi.component"
+                            [state]="vi.state"
+                            [style.visibility]="vi === shellService.mainActiveViewInstance ? 'visible' : 'hidden'"
+                            [p-parent-visible]="vi === shellService.mainActiveViewInstance">
+                        </p-compose>
+                    </div>
+                </div>
+            </div>
+
+            <div down-pane class="alt" *ngIf="shellService.altViewInstances.length > 0">
+                <div class="alt-toolbar" *ngIf="shellService.mainViewInstances.length + shellService.altViewInstances.length > 1 || (shellService.altViewInstances.length === 1 && !shellService.altViewInstances[0].hideClose)">
+                    <p-shell-toolbar
+                        [viewInstances]="shellService.altViewInstances"
+                        [(activeViewInstance)]="shellService.altActiveViewInstance"
+                        [showTitle]="true"
+                        [showArrow]="true"
+                        [isUp]="true"
+                        [moveToViewInstances]="shellService.mainViewInstances">
+                    </p-shell-toolbar>
+                </div>
+                <div class="alt-body">
+                    <div class="alt-host">
+                        <p-compose
+                            *ngFor="let vi of shellService.altViewInstances"
+                            [cmodule]="vi.cmodule"
+                            [component]="vi.component"
+                            [state]="vi.state"
+                            [style.visibility]="vi === shellService.altActiveViewInstance ? 'visible' : 'hidden'"
+                            [p-parent-visible]="vi === shellService.altActiveViewInstance">
+                        </p-compose>
+                    </div>
+                </div>
+            </div>
+
+        </p-up-down-splitter>
+    </p-left-right-splitter>
